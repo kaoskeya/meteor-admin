@@ -28,6 +28,10 @@
 			</div>
 		</div>
 
+		{{#if loading}}
+			{{> spinner}}
+		{{/if}}
+
 		{{#if currentCollection}}
 			{{#if actionCenter}}
 				<div class="row">
@@ -93,6 +97,23 @@
 							{{/each}}
 						</tbody>
 					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
+				</div>
+				<div class="col-md-3 text-right">
+					<!-- Page number in future release 0.2.0 -->
+					<div class="btn-group" role="toolbar" aria-label="Pagination">
+						{{#if prev}}
+							<button id="prev" class="btn btn-primary">Prev</button>
+						{{/if}}
+						{{#if next}}
+							<button id="next" class="btn btn-primary">Next</button>
+						{{/if}}
+					</div>
+					<br /><br />
 				</div>
 			</div>
 		{{else}}

@@ -1,7 +1,7 @@
 # meteor-admin
 `$ meteor add kaoskeya:admin`
 
-**Loads of updates planned in upcoming days.**
+**Loads of updates planned for in upcoming days. Ideally a feature a day. Will accept PRs.**
 
 Uses [autoform](https://github.com/aldeed/meteor-autoform) heavily.
 [yogiben:admin](https://github.com/yogiben/meteor-admin) was not working out too well for us, so built this.
@@ -10,6 +10,7 @@ Uses [autoform](https://github.com/aldeed/meteor-autoform) heavily.
 
 * Bootstrap. Not added as a dependency. You are free to use the CSS/LESS versions.
 * Aldeed's awesome simple-schema, collection2, autoform packages and your collections configured.
+* `meteor add tmeasday:publish-counts`
 
 Create the kAdminConfig object in common code.
 Will try to maintain the structure of yogiben:admin AdminConfig so as to switch easily.
@@ -51,8 +52,8 @@ Add `{{>kAdmin}}` to any page where you want the admin panel and you are set. We
 
 ## TODO ##
 * Tests.
-* Pagination (next push).
+* Pagination (basic done). Future: Page numbers, Jump to page, Set page size etc. Pretty each but will concentrate on related collections. Will accept pull.
 * Filter.
 * Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin).
 * Publish only whats required.
-* Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request. [Link to eval](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L8-10)
+* Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request. [Link to eval](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L6-9)
