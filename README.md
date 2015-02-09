@@ -51,9 +51,10 @@ kAdminConfig = {
 Add `{{>kAdmin}}` to any page where you want the admin panel and you are set. We're tried to keep it very simple and something that will work with your existing app design.
 
 ## TODO ##
+
 * Tests.
-* Pagination (basic done). Future: Page numbers, Jump to page, Set page size etc. Pretty each but will concentrate on related collections. Will accept pull.
+* Pagination (basic done). Future: Page numbers, Jump to page, Set page size etc. Pretty easy to buld but will concentrate on related collections and filtering and later get to this, possibly for 0.2.0. Will accept pull.
 * Filter.
 * Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin).
 * Publish only whats required.
-* Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request. [Link to eval](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L6-9)
+* [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L6-9) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.

@@ -31,7 +31,7 @@ random@1.0.2
 reactive-dict@1.0.5
 reactive-var@1.0.4
 retry@1.0.2
-sacha:spin@0.1.4
+sacha:spin@2.0.4
 spacebars-compiler@1.0.4
 templating@1.0.11
 tinytest@1.0.4
