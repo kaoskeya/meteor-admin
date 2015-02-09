@@ -21,7 +21,7 @@ Package.onUse(function(api) {
       'jquery',
       'aldeed:delete-button@1.0.0',
       'chrismbeckett:toastr@2.1.0',
-      'sacha:spin'
+      'sacha:spin@2.0.4'
     ],
     ['client','server']
   );
