@@ -31,7 +31,10 @@ Template.kAdmin.helpers({
 		return Template.instance().action.get() == action;
 	},
 	currentDoc: function() {
-		return Template.instance().currentDoc;
+		return Template.instance().currentDoc.get();
+	},
+	formattedCurrentDoc: function() {
+		return JSON.stringify( Template.instance().currentDoc.get(), null, "\t");
 	},
 	deleteSuccess: function() {
 		var action = Template.instance().action;
@@ -54,8 +57,11 @@ Template.kAdmin.events({
 	},
 	'click .action': function(e, instance) {
 		// console.log( $(e.target).data('action'), this )
-		instance.currentDoc = this;
+		instance.currentDoc.set(this);
 		instance.action.set( $(e.target).data('action') );
+		$('html, body').animate({
+			scrollTop: $("#kAdminActionCenter").offset().top
+		}, 700);
 	},
 	'click #cancelAction': function(e, instance) {
 		instance.action.set();
@@ -68,7 +74,7 @@ Template.kAdmin.created = function() {
 	instance.config = kAdminConfig;
 	instance.currentCollection = new ReactiveVar();
 	instance.action = new ReactiveVar();
-	instance.currentDoc;
+	instance.currentDoc = new ReactiveVar();
 
 	instance.autorun(function() {
 		if( instance.currentCollection.get() != undefined ) {

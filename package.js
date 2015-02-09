@@ -1,8 +1,8 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.0.4',
+  version: '0.0.5',
   // Brief, one-line summary of the package.
-  summary: 'Simple admin panel for Meteor.',
+  summary: 'Simple admin panel that integrates with your design.',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/kaoskeya/meteor-admin.git',
   // By default, Meteor will default to using README.md for documentation.
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0.3.1');
+  api.versionsFrom('METEOR@1.0');
 
   api.use(
     [
@@ -19,8 +19,8 @@ Package.onUse(function(api) {
       'reactive-var',
       'reactive-dict',
       'jquery',
-      'aldeed:delete-button',
-      'chrismbeckett:toastr'
+      'aldeed:delete-button@1.0.0',
+      'chrismbeckett:toastr@2.1.0'
     ],
     ['client','server']
   );
