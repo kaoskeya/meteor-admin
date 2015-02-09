@@ -55,4 +55,4 @@ Add `{{>kAdmin}}` to any page where you want the admin panel and you are set. We
 * Filter.
 * Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin).
 * Publish only whats required.
-* Uses eval() in server code, but only after the necessary checks are done. But if you have other ways to implement this, please open an issue or send a pull request.
+* Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request. [Link to eval](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L8-10)
