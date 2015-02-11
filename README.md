@@ -72,7 +72,9 @@ You will have to check for user authentication and level before you send them to
 
 ### Screenshots ###
 
-Coming soon.
+![kaoskeya:admin on site 1](https://raw.githubusercontent.com/kaoskeya/meteor-admin/master/screenshots/sample1.png "Sample Site 2")
+
+![kaoskeya:admin on site 2](https://raw.githubusercontent.com/kaoskeya/meteor-admin/master/screenshots/sample2.png "Sample Site 1")
 
 ## TODO ##
 
