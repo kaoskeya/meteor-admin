@@ -22,12 +22,29 @@ Template.kAdmin.helpers({
 	rows: function() {
 		return eval(Template.instance().currentCollection.get()).find().fetch();
 	},
-	getAttrs: function(keys) {
-		//console.log( _.pluck(keys, 'name') )
+	getAttrs: function(cols) {
 		var self = this;
-		return _.map(_.pluck(keys, 'name'), function(key){
-			return self[key]
-		})
+		return _.map(cols, function(col){
+			keys = _.pick(col, 'name', 'collection', 'collection_property');
+			if(keys['collection'] == undefined) {
+				// If it does not have an aux collection
+				return self[ keys['name'] ]
+			} else {
+				// If it has an aux collection
+				if( self[keys['name']] instanceof Array ) {
+					// One to many
+					return _.map(
+						eval(keys['collection']).find({ _id: { $in: self[keys['name']] } }).fetch(),
+						function(foreign_entity) {
+							return foreign_entity[keys['collection_property']];
+						}
+					).join(', ');
+				} else {
+					// One to one
+					return eval(keys['collection']).findOne({ _id: self[keys['name']] })[keys['collection_property']];
+				}
+			}
+		});
 	},
 	// CRUD
 	actionCenter: function() {
@@ -80,6 +97,8 @@ Template.kAdmin.events({
 	// Collection selector
 	'click #kAdminSelector a': function(e, instance) {
 		instance.currentCollection.set( $(e.target).data('collection') );
+		instance.pagination.set('skip', 0);
+		instance.pagination.set('limit', instance.perPage.get());
 	},
 	// CRUD action trigger
 	'click .action': function(e, instance) {
@@ -117,7 +136,7 @@ Template.kAdmin.created = function() {
 	// Use for pagination
 	instance.pagination = new ReactiveDict;
 	instance.pagination.set('skip', 0);
-	instance.pagination.set('limit', 10);
+	instance.pagination.set('limit', instance.perPage.get());
 
 	instance.autorun(function() {
 		if( instance.currentCollection.get() != undefined ) {
@@ -133,10 +152,10 @@ Template.kAdmin.created = function() {
 			instance.subscription = Meteor.subscribe(
 				'kAdminSubscribe', // Publisher
 				instance.currentCollection.get(), // Collection name
-				{  },// Add filters here
+				{  },// Add filters here - fields: { field_name: 1 }
 				{ skip: instance.pagination.get('skip'), limit: instance.pagination.get('limit') }, // Pagination
 				function(ready){
-					console.log('Total count:', instance.pagination.keys )
+					//console.log('Total count:', instance.pagination.keys )
 					instance.loading.set(false);
 				}
 			);

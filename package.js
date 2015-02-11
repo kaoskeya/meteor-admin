@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.0.6',
+  version: '0.0.7',
   // Brief, one-line summary of the package.
   summary: 'Simple admin panel that integrates with your design.',
   // URL to the Git repository containing the source code for this package.
@@ -21,7 +21,8 @@ Package.onUse(function(api) {
       'jquery',
       'aldeed:delete-button@1.0.0',
       'chrismbeckett:toastr@2.1.0',
-      'sacha:spin@2.0.4'
+      'sacha:spin@2.0.4',
+      'reywood:publish-composite@1.3.5'
     ],
     ['client','server']
   );
