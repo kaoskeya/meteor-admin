@@ -6,18 +6,32 @@
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 [yogiben:admin](https://github.com/yogiben/meteor-admin) was not working out too well for us, so built this.
 
+- [Dependencies](#dependencies)
+- [Setup](#setup)
+- [Config File](#config-file)
+- [Screeshots](#screenshots)
+- [TODO](#todo)
+
 #### Dependencies ####
 
 * Bootstrap. Not added as a dependency. You are free to use the CSS/LESS versions.
-* aldeed's awesome simple-schema, collection2, autoform packages and your collections configured. You need your collections configured using these for the admin panel to work.
+* aldeed's awesome simple-schema, collection2 and autoform packages. You need your collections configured using these for the admin panel to work.
 * Add the publish-counts package `meteor add tmeasday:publish-counts`
 * Roles created using `meteor add alanning:roles`
 
+#### Setup ####
+
 Create the kAdminConfig object in common code.
-Will try to maintain the structure of yogiben:admin AdminConfig so as to switch between packages easily, incase either break.
+
+Then add `{{>kAdmin}}` to any page where you want the admin panel and you are set.
+
+We're tried to keep it very simple and something that will work with your existing app design.
+
+#### Config file ####
+
+Note: In the example given below, `Products.owner` is a one-to-one and `Business.admins` is a one-to-many.
 
 E.g:
-Note: In the example given below, Products.owner is a one-to-one and Business.admins is a one-to-many.
 
 ```
 kAdminConfig = {
@@ -52,7 +66,13 @@ kAdminConfig = {
 }
 ```
 
-Add `{{>kAdmin}}` to any page where you want the admin panel and you are set. We're tried to keep it very simple and something that will work with your existing app design.
+Will try to maintain the structure of yogiben:admin AdminConfig so as to switch between packages easily, incase either break.
+
+You will have to check for user authentication and level before you send them to a page with the `kAdmin` template. The publish functions currently publishes only if the user is an 'admin'.
+
+### Screenshots ###
+
+Coming soon.
 
 ## TODO ##
 
