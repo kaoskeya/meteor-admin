@@ -46,6 +46,10 @@ Template.kAdmin.helpers({
 			}
 		});
 	},
+	searchable: function(column) {
+		// Currently only test search. Foreign-key search could be added later. Need to check.
+		return !column.hasOwnProperty('collection');
+	},
 	// CRUD
 	actionCenter: function() {
 		return Template.instance().action.get();
@@ -99,6 +103,8 @@ Template.kAdmin.events({
 		instance.currentCollection.set( $(e.target).data('collection') );
 		instance.pagination.set('skip', 0);
 		instance.pagination.set('limit', instance.perPage.get());
+		instance.filters.set();
+		$('.filters').val('');
 	},
 	// CRUD action trigger
 	'click .action': function(e, instance) {
@@ -119,6 +125,17 @@ Template.kAdmin.events({
 	},
 	'click #prev': function(e, instance) {
 		instance.pagination.set('skip', instance.pagination.get('skip') - instance.perPage.get())
+	},
+	//Filtering
+	'change .filters, click #filterTrigger': function(e, instance) {
+		var filter = {};
+		$('.filters').each(function(index, field) {
+			if( $(field).val() ) {
+				filter[$(field).attr('name')] = $(field).val();
+			}
+		});
+		instance.filters.set( JSON.stringify(filter) );
+		console.log( instance.filters.get() )
 	}
 });
 
@@ -126,7 +143,7 @@ Template.kAdmin.created = function() {
 	var instance = this;
 	//console.log('[kAdmin] created: ', kAdminConfig.collections);
 	instance.config = kAdminConfig;
-	instance.currentCollection = new ReactiveVar();
+	instance.currentCollection = new ReactiveVar('');
 	instance.action = new ReactiveVar();
 	instance.currentDoc = new ReactiveVar();
 	// Next/Prev increments/decrements skip by this value.
@@ -138,8 +155,11 @@ Template.kAdmin.created = function() {
 	instance.pagination.set('skip', 0);
 	instance.pagination.set('limit', instance.perPage.get());
 
+	// Filtering - ReactiveDict did not work too well. Will revisit this once I've used it a bit more elsewhere.
+	instance.filters = new ReactiveVar();
+
 	instance.autorun(function() {
-		if( instance.currentCollection.get() != undefined ) {
+		if( instance.currentCollection.get() != '' ) {
 			// If the current collection is set, subscribe to it
 			instance.loading.set(true);
 			if( instance.subscription != undefined ) {
@@ -152,7 +172,7 @@ Template.kAdmin.created = function() {
 			instance.subscription = Meteor.subscribe(
 				'kAdminSubscribe', // Publisher
 				instance.currentCollection.get(), // Collection name
-				{  },// Add filters here - fields: { field_name: 1 }
+				instance.filters.get(),// Add filters here - fields: { field_name: 1 }
 				{ skip: instance.pagination.get('skip'), limit: instance.pagination.get('limit') }, // Pagination
 				function(ready){
 					//console.log('Total count:', instance.pagination.keys )

@@ -1,5 +1,5 @@
 <template name="kAdmin">
-	<div class="container">
+	<div class="container" id="kAdmin">
 		<div class="row">
 			<div class="col-md-8">
 				{{#if currentCollection}}
@@ -8,23 +8,25 @@
 					<h1>{{ panelName }}</h1>
 				{{/if}}
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-1 text-right">
 				<br />
-				<button type="button" class="btn btn-default btn-lg dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
+				{{#if currentCollection}}
+					<a class="btn btn-success btn-block action" data-action="create">New</a>
+				{{/if}}
+			</div>
+			<div class="col-md-3 text-right">
+				<br />
+				<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
 				{{ currentlyManaging }} <span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu" role="menu" id="kAdminSelector">
+				<ul class="dropdown-menu dropdown-menu-right" role="menu" id="kAdminSelector">
 					{{#each collections}}
 						<li><a href="#" data-collection="{{ this }}">{{ this }}</a></li>
 					{{/each}}
+					<li class="divider"></li>
+					<li><a href="#" data-collection="">Reset</a></li>
 				</ul>
 				<!-- TODO: Reset -->
-			</div>
-			<div class="col-md-2 text-right">
-				{{#if currentCollection}}
-					<br />
-					<a class="btn btn-success action" data-action="create">Add {{ currentCollection }}</a>
-				{{/if}}
 			</div>
 		</div>
 
@@ -74,7 +76,22 @@
 								{{#unless collection.tableColumns}}
 									<th>ID</th>
 								{{/unless}}
-								<th class="text-right">Actions</th>
+								<th class="text-center">Actions</th>
+							</tr>
+							<tr>
+								{{#each collection.tableColumns}}
+									<th>
+										{{#if searchable this }}
+											<input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" />
+										{{/if}}
+									</th>
+								{{/each}}
+								{{#unless collection.tableColumns}}
+									<th>ID</th>
+								{{/unless}}
+								<th>
+									<button class="btn btn-block" id="filterTrigger">Filter</button>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -96,6 +113,17 @@
 								</tr>
 							{{/each}}
 						</tbody>
+						<tfoot>
+							<tr>
+								{{#each collection.tableColumns}}
+									<th>{{ label }}</th>
+								{{/each}}
+								{{#unless collection.tableColumns}}
+									<th>ID</th>
+								{{/unless}}
+								<th class="text-center">Actions</th>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>

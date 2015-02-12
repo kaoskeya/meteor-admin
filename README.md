@@ -79,9 +79,9 @@ You will have to check for user authentication and level before you send them to
 ## TODO ##
 
 * Tests.
-* ~~Pagination (basic done).~~
+* ~~Basic Pagination.~~
 * Advanced Pagination: Page numbers, Jump to page, Set page size etc. Pretty easy to buld but will concentrate on related collections and filtering and later get to this, possibly for 0.2.0. Will accept pull.
-* Filter.
+* ~~Filter.~~
 * ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
 * Publish only whats required.
-* [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L7-8) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.
+* [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L12-15) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.
