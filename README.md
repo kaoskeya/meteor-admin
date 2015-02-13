@@ -72,9 +72,15 @@ You will have to check for user authentication and level before you send them to
 
 ### Screenshots ###
 
+Fitler forms fields take your webiste styling.
+
 ![kaoskeya:admin on site 1](https://raw.githubusercontent.com/kaoskeya/meteor-admin/master/screenshots/sample1.png "Sample Site 2")
 
 ![kaoskeya:admin on site 2](https://raw.githubusercontent.com/kaoskeya/meteor-admin/master/screenshots/sample2.png "Sample Site 1")
+
+Filtering example below.
+
+![kaoskeya:admin on site 3](https://raw.githubusercontent.com/kaoskeya/meteor-admin/master/screenshots/sample3.png "Sample Site 3")
 
 ## TODO ##
 
