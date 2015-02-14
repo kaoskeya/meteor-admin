@@ -85,9 +85,15 @@ Filtering example below.
 ## TODO ##
 
 * Tests.
-* ~~Basic Pagination.~~
-* Advanced Pagination: Page numbers, Jump to page, Set page size etc. Pretty easy to buld but will concentrate on related collections and filtering and later get to this, possibly for 0.2.0. Will accept pull.
-* ~~Filter.~~
-* ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
-* Publish only whats required.
+* Sorting. [#9](https://github.com/kaoskeya/meteor-admin/issues/9)
+* Demo Site. [#8](https://github.com/kaoskeya/meteor-admin/issues/8)
+* Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)
+* Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
+* Publish only whats required. While Viewing/Editing, publish all keys.
 * [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L12-15) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.
+
+### DONE ###
+
+* ~~Filter.~~
+* ~~Basic Pagination.~~
+* ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
