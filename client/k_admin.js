@@ -47,7 +47,11 @@ Template.kAdmin.helpers({
 		});
 	},
 	searchable: function(column) {
-		// Currently only test search. Foreign-key search could be added later. Need to check.
+		// Currently only text search. Foreign-key search could be added later. Need to check.
+		return !column.hasOwnProperty('collection');
+	},
+	sortable: function(column) {
+		// Currently only own field search. Foreign-key sort could be added later. Need to check. lept separate from searchable as that feature might be possible before this.
 		return !column.hasOwnProperty('collection');
 	},
 	// CRUD
@@ -76,6 +80,13 @@ Template.kAdmin.helpers({
 			console.log(error); 
 		};
 	},
+	// Sorting
+	fieldBeingSorted: function(field) {
+		return field == Template.instance().sort.get('field')
+	},
+	sortIcon: function() {
+		return parseInt(Template.instance().sort.get('order'))===1?'glyphicon glyphicon-chevron-up':'glyphicon glyphicon-chevron-down';
+	},
 	// Pagination
 	totalRows: function() {
 		return Counts.get('currentCollectionCount');
@@ -103,6 +114,8 @@ Template.kAdmin.events({
 		instance.currentCollection.set( $(e.target).data('collection') );
 		instance.pagination.set('skip', 0);
 		instance.pagination.set('limit', instance.perPage.get());
+		instance.sort.set('field');
+		instance.sort.set('order', 1);
 		instance.filters.set();
 		$('.filters').val('');
 	},
@@ -126,6 +139,16 @@ Template.kAdmin.events({
 	'click #prev': function(e, instance) {
 		instance.pagination.set('skip', instance.pagination.get('skip') - instance.perPage.get())
 	},
+	//Sort
+	'click .sortable': function(e, instance) {
+		if( instance.sort.get('field') == $(e.target).attr('id') ) {
+			instance.sort.set('order', instance.sort.get('order') * -1 );
+			instance.pagination.set('skip', 0); // Set page number to 1
+		} else {
+			instance.sort.set('field', $(e.target).attr('id'))
+			instance.pagination.set('skip', 0); // Set page number to 1
+		}
+	},
 	//Filtering
 	'change .filters, click #filterTrigger': function(e, instance) {
 		var filter = {};
@@ -135,7 +158,6 @@ Template.kAdmin.events({
 			}
 		});
 		instance.filters.set( JSON.stringify(filter) );
-		console.log( instance.filters.get() )
 	}
 });
 
@@ -155,6 +177,11 @@ Template.kAdmin.created = function() {
 	instance.pagination.set('skip', 0);
 	instance.pagination.set('limit', instance.perPage.get());
 
+	// Use for sort
+	instance.sort = new ReactiveDict;
+	instance.sort.set('field');
+	instance.sort.set('order', 1);
+
 	// Filtering - ReactiveDict did not work too well. Will revisit this once I've used it a bit more elsewhere.
 	instance.filters = new ReactiveVar();
 
@@ -169,11 +196,20 @@ Template.kAdmin.created = function() {
 				// Set current action to none.
 				instance.action.set();
 			}
+			var sort = {};
+			if( instance.sort.get('field') ) {
+				sort[ instance.sort.get('field') ] = parseInt( instance.sort.get('order') );
+			}
+
 			instance.subscription = Meteor.subscribe(
 				'kAdminSubscribe', // Publisher
 				instance.currentCollection.get(), // Collection name
-				instance.filters.get(),// Add filters here - fields: { field_name: 1 }
-				{ skip: instance.pagination.get('skip'), limit: instance.pagination.get('limit') }, // Pagination
+				instance.filters.get(),// Filters here
+				{ 
+					skip: instance.pagination.get('skip'), 
+					limit: instance.pagination.get('limit'), 
+					sort: sort
+				}, // Pagination and sort
 				function(ready){
 					//console.log('Total count:', instance.pagination.keys )
 					instance.loading.set(false);

@@ -1,14 +1,14 @@
 <template name="kAdmin">
 	<div class="container" id="kAdmin">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-7">
 				{{#if currentCollection}}
 					<h1>{{ panelName }} - Managing {{currentCollection}}</h1>
 				{{else}}
 					<h1>{{ panelName }}</h1>
 				{{/if}}
 			</div>
-			<div class="col-md-1 text-right">
+			<div class="col-md-2 text-right">
 				<br />
 				{{#if currentCollection}}
 					<a class="btn btn-success btn-block action" data-action="create">New</a>
@@ -71,12 +71,23 @@
 						<thead>
 							<tr>
 								{{#each collection.tableColumns}}
-									<th>{{ label }}</th>
+									{{#if sortable this }}
+										<th class="sortable" id="{{ name }}">
+											{{ label }}
+											{{#if fieldBeingSorted name}}
+												<i class="{{ sortIcon }}"></i>
+											{{/if}}
+										</th>
+									{{else}}
+										<th>
+											{{ label }}
+										</th>
+									{{/if}}
 								{{/each}}
 								{{#unless collection.tableColumns}}
 									<th>ID</th>
 								{{/unless}}
-								<th class="text-center">Actions</th>
+								<th class="text-center actionHeader">Actions</th>
 							</tr>
 							<tr>
 								{{#each collection.tableColumns}}

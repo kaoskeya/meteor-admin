@@ -1,5 +1,5 @@
 Meteor.publishComposite('kAdminSubscribe', function(collection, filters, pagination){
-	console.log(filters);
+	//console.log(pagination);
 	if ( Roles.userIsInRole(this.userId, ['admin']) ) {
 		if( _.keys( kAdminConfig.collections ).indexOf(collection) > -1 ) {
 			// If requested collection is a key in kAdminConfig

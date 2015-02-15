@@ -1,0 +1,6 @@
+#kAdmin .sortable {
+	cursor: pointer;
+}
+#kAdmin .actionHeader {
+	min-width: 160px;
+}

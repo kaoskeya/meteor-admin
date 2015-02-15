@@ -85,7 +85,6 @@ Filtering example below.
 ## TODO ##
 
 * Tests.
-* Sorting. [#9](https://github.com/kaoskeya/meteor-admin/issues/9)
 * Demo Site. [#8](https://github.com/kaoskeya/meteor-admin/issues/8)
 * Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)
 * Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
@@ -97,3 +96,4 @@ Filtering example below.
 * ~~Filter.~~
 * ~~Basic Pagination.~~
 * ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
+* ~~Sorting. [#9](https://github.com/kaoskeya/meteor-admin/issues/9)~~

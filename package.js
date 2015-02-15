@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.0.9',
+  version: '0.1.0',
   // Brief, one-line summary of the package.
   summary: 'Simple admin panel that integrates with your design.',
   // URL to the Git repository containing the source code for this package.
@@ -34,6 +34,7 @@ Package.onUse(function(api) {
   api.add_files([
     'client/k_admin.html',
     'client/k_admin.js',
+    'client/k_admin.css',
     ], 'client');
 
   api.add_files([
