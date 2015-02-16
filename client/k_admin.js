@@ -163,8 +163,15 @@ Template.kAdmin.events({
 
 Template.kAdmin.created = function() {
 	var instance = this;
-	//console.log('[kAdmin] created: ', kAdminConfig.collections);
-	instance.config = kAdminConfig;
+	if( typeof kAdminConfig != 'undefined' ) {
+		instance.config = kAdminConfig;
+	} else {
+		instance.config = {
+			name: 'Please Configure',
+			collections: {}
+		}
+	}
+
 	instance.currentCollection = new ReactiveVar('');
 	instance.action = new ReactiveVar();
 	instance.currentDoc = new ReactiveVar();

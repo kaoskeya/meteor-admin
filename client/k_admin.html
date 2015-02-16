@@ -156,8 +156,11 @@
 				</div>
 			</div>
 		{{else}}
-			<h3>Please select a module from the dropdown on top.</h3>
-			<p>If you do not see a dropdown, please create the kAdminConfig in your app's common code.</p>
+			<h3>Please select a module from the dropdown on top right.</h3>
+			{{#unless collections}}
+				<p>If you do not see modules in the dropdown, please create the kAdminConfig in your app's common code.</p>
+				<p><a href="https://github.com/kaoskeya/meteor-admin#config-file" target="_blank">Config file</a> instructions.</p>
+			{{/unless}}
 		{{/if}}
 	</div>
 </template>

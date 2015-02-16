@@ -90,9 +90,6 @@ Filtering example below.
 * Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
 * Publish only whats required. While Viewing/Editing, publish all keys.
 * [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L12-15) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.
-
-### DONE ###
-
 * ~~Filter.~~
 * ~~Basic Pagination.~~
 * ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
