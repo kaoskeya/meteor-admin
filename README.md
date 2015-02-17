@@ -85,6 +85,7 @@ Filtering example below.
 ## TODO ##
 
 * Tests.
+* Create/View/Edit/Delete custom templates. (The user password editing issue [#13](https://github.com/kaoskeya/meteor-admin/issues/13) could be handled with this feature).
 * Demo Site. [#8](https://github.com/kaoskeya/meteor-admin/issues/8)
 * Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)
 * Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
@@ -94,3 +95,8 @@ Filtering example below.
 * ~~Basic Pagination.~~
 * ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~
 * ~~Sorting. [#9](https://github.com/kaoskeya/meteor-admin/issues/9)~~
+
+## Future course ##
+
+* i18n. Allow for package user to define words for buttons, messages (View/vista, edit/editar) etc. 
+* Admin panel demo script using bootstraptour or linkedin hopscotch? Could be a different package.

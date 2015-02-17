@@ -17,8 +17,8 @@ htmljs@1.0.3
 id-map@1.0.2
 jquery@1.11.3
 json@1.0.2
-kaoskeya:admin@0.1.0
-local-test:kaoskeya:admin@0.1.0
+kaoskeya:admin@0.1.1
+local-test:kaoskeya:admin@0.1.1
 logging@1.0.6
 meteor@1.1.4
 minifiers@1.1.3
