@@ -29,7 +29,10 @@ We're tried to keep it very simple and something that will work with your existi
 
 #### Config file ####
 
-Note: In the example given below, `Answer.user` is a one-to-one to the Meteor.users collection, `Answer.question` is a one-to-one to a simple-schema collection `Question` and `Business.admins` is a one-to-many to a simple-schema collection `User`.
+Note: In the example given below, 
+`Enquiry.user` is a one-to-one to the `Meteor.users` collection.
+`Answer.question` is a one-to-one to a simple-schema collection `Question`.
+`Business.admins` is a one-to-many to a simple-schema collection `User`.
 
 E.g:
 
@@ -37,18 +40,16 @@ E.g:
 kAdminConfig = {
 	name: 'Your Panel Name',
 	collections: {
-		Answer: {
+		Enquiry: {
 			tableColumns: [
-				{label: 'Question', name: 'question', collection: 'Question', collection_property: 'question'},
-				{label: 'Answer Type', name: 'answer_type'},
+				{label: 'Message', name: 'message'},
 				{label: 'Posted by', name: 'user', collection: 'Meteor.users', collection_property: 'profile.name' } // Dot notation
 			]
 		},
-		Enquiry: {
+		Answer: {
 			tableColumns: [
-				{label: 'Name', name: 'name'},
-				{label: 'Email', name: 'email'},
-				{label: 'Requirements', name: 'requirements'}
+				{label: 'Question', name: 'question', collection: 'Question', collection_property: 'question'},
+				{label: 'Answer Type', name: 'answer_type'}
 			]
 		},
 		Business: {
@@ -88,7 +89,7 @@ Filtering example below.
 * Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)
 * Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
 * Publish only whats required. While Viewing/Editing, publish all keys.
-* [Uses eval()](https://github.com/kaoskeya/meteor-admin/blob/master/server/publish.js#L12-15) in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.
+* ~~Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.~~
 * ~~Filter.~~
 * ~~Basic Pagination.~~
 * ~~Publish related collections (reywood:publish-composite and the auxCollections in yogiben:admin). One-to-one and one-to-many~~

@@ -20,7 +20,7 @@ Template.kAdmin.helpers({
 	},
 	// Printing the table.
 	rows: function() {
-		return eval(Template.instance().currentCollection.get()).find().fetch();
+		return window[ Template.instance().currentCollection.get() ].find().fetch();
 	},
 	getAttrs: function(cols) {
 		var self = this;
@@ -35,7 +35,7 @@ Template.kAdmin.helpers({
 					// One to many
 					function index(obj,i) {return obj[i]};
 					return _.map(
-						eval(keys['collection']).find({ _id: { $in: self[keys['name']] } }).fetch(),
+						window[ keys['collection'] ].find({ _id: { $in: self[keys['name']] } }).fetch(),
 						function(foreign_entity) {
 							try {
 								return keys['collection_property'].split('.').reduce(index, foreign_entity);
@@ -50,7 +50,7 @@ Template.kAdmin.helpers({
 					// Dot notation to object.
 					function index(obj,i) {return obj[i]};
 					try {
-						return keys['collection_property'].split('.').reduce(index, eval(keys['collection']).findOne({ _id: self[keys['name']] }));
+						return keys['collection_property'].split('.').reduce(index, window[ keys['collection'] ].findOne({ _id: self[keys['name']] }));
 					} catch(e) {
 						return '';
 					}

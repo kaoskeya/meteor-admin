@@ -1,5 +1,4 @@
 Meteor.publishComposite('kAdminSubscribe', function(collection, filters, pagination){
-	//console.log(pagination);
 	if ( Roles.userIsInRole(this.userId, ['admin']) ) {
 		if( _.keys( kAdminConfig.collections ).indexOf(collection) > -1 ) {
 			// If requested collection is a key in kAdminConfig
@@ -10,18 +9,15 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 					else {
 						filters = JSON.parse(filters);
 						_.each(filters, function(value, index){
-							// eval below and a few more places
-							// We've already checked for the collection name match and also admin user level.
-							// Other implementation welcome, PRs please?
-							filters[index] = eval(collection).simpleSchema()._schema[index].type(value);
+							filters[index] = global[collection].simpleSchema()._schema[index].type(value);
 						})
 					}
-					Counts.publish(this, 'currentCollectionCount', eval(collection).find( filters ), { noReady: true });
+					Counts.publish(this, 'currentCollectionCount', global[collection].find( filters ), { noReady: true });
 					aux_collections = _.compact(_.map(kAdminConfig.collections[collection].tableColumns, function(field){
 						if(field.collection)
 							return { 'collection': field.collection, 'property': field.collection_property, 'name': field.name }
 					}));
-					return eval(collection).find(filters, pagination);
+					return global[collection].find(filters, pagination);
 				},
 				children: [
 					{
@@ -32,11 +28,11 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 								if( aux_collections.length > 0 ) {
 									if( primary[aux_collections[0].name] instanceof Array ) {
 										// One to Many
-										return eval(aux_collections[0].collection).find(
+										return global[aux_collections[0].collection].find(
 											{ _id: { $in: primary[aux_collections[0].name] } }
 										);
 									} else {
-										return eval(aux_collections[0].collection).find(
+										return global[aux_collections[0].collection].find(
 											{ _id: primary[aux_collections[0].name] }
 										);
 									}
