@@ -33,15 +33,27 @@ Template.kAdmin.helpers({
 				// If it has an aux collection
 				if( self[keys['name']] instanceof Array ) {
 					// One to many
+					function index(obj,i) {return obj[i]};
 					return _.map(
 						eval(keys['collection']).find({ _id: { $in: self[keys['name']] } }).fetch(),
 						function(foreign_entity) {
-							return foreign_entity[keys['collection_property']];
+							try {
+								return keys['collection_property'].split('.').reduce(index, foreign_entity);
+							} catch(e) {
+								return '';
+							}
+							//return foreign_entity[keys['collection_property']];
 						}
 					).join(', ');
 				} else {
 					// One to one
-					return eval(keys['collection']).findOne({ _id: self[keys['name']] })[keys['collection_property']];
+					// Dot notation to object.
+					function index(obj,i) {return obj[i]};
+					try {
+						return keys['collection_property'].split('.').reduce(index, eval(keys['collection']).findOne({ _id: self[keys['name']] }));
+					} catch(e) {
+						return '';
+					}
 				}
 			}
 		});
