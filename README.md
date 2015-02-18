@@ -29,7 +29,7 @@ We're tried to keep it very simple and something that will work with your existi
 
 #### Config file ####
 
-Note: In the example given below, `Products.owner` is a one-to-one and `Business.admins` is a one-to-many.
+Note: In the example given below, `Answer.user` is a one-to-one to the Meteor.users collection, `Answer.question` is a one-to-one to a simple-schema collection `Question` and `Business.admins` is a one-to-many to a simple-schema collection `User`.
 
 E.g:
 
@@ -37,13 +37,11 @@ E.g:
 kAdminConfig = {
 	name: 'Your Panel Name',
 	collections: {
-		Products : {
+		Answer: {
 			tableColumns: [
-				{label: 'Friendly ID', name: 'friendly_id'},
-				{label: 'Type', name: 'type'},
-				{label: 'Target Price', name: 'target_price' },
-				{label: 'Delivery Terms', name: 'delivery_terms' },
-				{label: 'Owner', name: 'owner', collection: 'User', collection_property: 'email' }
+				{label: 'Question', name: 'question', collection: 'Question', collection_property: 'question'},
+				{label: 'Answer Type', name: 'answer_type'},
+				{label: 'Posted by', name: 'user', collection: 'Meteor.users', collection_property: 'profile.name' } // Dot notation
 			]
 		},
 		Enquiry: {
