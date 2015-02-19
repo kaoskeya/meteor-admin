@@ -1,7 +1,7 @@
 # meteor-admin
 `$ meteor add kaoskeya:admin`
 
-**Loads of updates in the upcoming days. Ideally a feature a day. Will accept PRs.**
+**Under active development currently. [2015-2-19]**
 
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 [yogiben:admin](https://github.com/yogiben/meteor-admin) was not working out too well for us, so built this.

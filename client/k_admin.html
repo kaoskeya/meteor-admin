@@ -41,16 +41,28 @@
 						<div class="panel" id="kAdminActionCenter">
 							<div class="panel-body">
 								{{#if actionCenterCheck 'create'}}
-									<h3>Create</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="insert"}}
+									{{#if collection.templates.new }}
+										{{> DynamicTemplate template=collection.templates.new.name }}
+									{{else}}
+										<h3>Create</h3>
+										{{> quickForm collection=currentCollection id="kAdminForm" type="insert"}}
+									{{/if}}
 								{{/if}}
 								{{#if actionCenterCheck 'read'}}
-									<h3>View</h3>
-									<pre>{{ formattedCurrentDoc }}</pre>
+									{{#if collection.templates.view }}
+										{{> DynamicTemplate template=collection.templates.view.name  data=currentDoc }}
+									{{else}}
+										<h3>View</h3>
+										<pre>{{ formattedCurrentDoc }}</pre>
+									{{/if}}
 								{{/if}}
 								{{#if actionCenterCheck 'update'}}
-									<h3>Update</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc}}
+									{{#if collection.templates.edit }}
+										{{> DynamicTemplate template=collection.templates.edit.name data=currentDoc }}
+									{{else}}
+										<h3>Update</h3>
+										{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc}}
+									{{/if}}
 								{{/if}}
 								{{#if actionCenterCheck 'delete'}}
 									<h3>Delete</h3>
