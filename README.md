@@ -9,6 +9,7 @@ Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 - [Dependencies](#dependencies)
 - [Setup](#setup)
 - [Config File](#config-file)
+- [Custom Template Instructions](#custom-template-instructions)
 - [Screeshots](#screenshots)
 - [TODO](#todo)
 
