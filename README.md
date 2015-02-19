@@ -33,6 +33,7 @@ Note: In the example given below,
 `Enquiry.user` is a one-to-one to the `Meteor.users` collection.
 `Answer.question` is a one-to-one to a simple-schema collection `Question`.
 `Business.admins` is a one-to-many to a simple-schema collection `User`.
+`Enquiry` has custom views for `new`, `edit` and `view`.
 
 E.g:
 
@@ -45,6 +46,11 @@ kAdminConfig = {
 				{label: 'Message', name: 'message'},
 				{label: 'Posted by', name: 'user', collection: 'Meteor.users', collection_property: 'profile.name' } // Dot notation
 			]
+			templates: {
+				"new": { name: 'yourCustomNewTemplate' },
+				"edit": { name: 'yourCustomEditTemplate' },
+				"view": { name: 'yourCustomViewTemplate' }
+			}
 		},
 		Answer: {
 			tableColumns: [
@@ -68,6 +74,27 @@ kAdminConfig = {
 Will try to maintain the structure of yogiben:admin AdminConfig so as to switch between packages easily, incase either break.
 
 You will have to check for user authentication and level before you send them to a page with the `kAdmin` template. The publish functions currently publishes only if the user is an 'admin'.
+
+#### Custom Template instructions ####
+
+On completion of new/edit action in your custom templates' AutoForm, to close the open window, use the following code to trigger the appropriate actions.
+
+```
+AutoForm.hooks({
+	// Rolling with the same ID for all forms currently.
+	yourCustomFormId: {
+		onSuccess: function(operation, result, template) {
+			$('#cancelAction').trigger('click');
+			toastr.success('Action completed');
+		},
+		onError: function(operation, error, template) {
+			console.log(error)
+			toastr.error(error)
+		}
+	}
+});
+```
+
 
 ### Screenshots ###
 
