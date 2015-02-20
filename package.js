@@ -41,6 +41,7 @@ Package.onUse(function(api) {
 
   api.add_files([
     'server/publish.js',
+    'server/methods.js'
     ], 'server');
 
   api.export('kAdmin'  ['client', 'server']);
