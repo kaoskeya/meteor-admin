@@ -25,6 +25,7 @@ Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 Create the kAdminConfig object in common code.
 
 Then add `{{>kAdmin}}` to any page where you want the admin panel and you are set.
+For a fluid admin panel that takes the entire width, use `{{>kAdminFluid}}` - for this to take complete width, ensure it is not inside any `.container` or `.row`.
 
 We're tried to keep it very simple and something that will work with your existing app design.
 

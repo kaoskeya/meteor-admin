@@ -1,178 +1,187 @@
 <template name="kAdmin">
 	<div class="container" id="kAdmin">
-		<div class="row">
-			<div class="col-md-7">
-				{{#if currentCollection}}
-					<h1>{{ panelName }} - Managing {{currentCollection}}</h1>
-				{{else}}
-					<h1>{{ panelName }}</h1>
-				{{/if}}
-			</div>
-			<div class="col-md-2 text-right">
-				<br />
-				{{#if currentCollection}}
-					<a class="btn btn-success btn-block action" data-action="create">New</a>
-				{{/if}}
-			</div>
-			<div class="col-md-3 text-right">
-				<br />
-				<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
-				{{ currentlyManaging }} <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu dropdown-menu-right" role="menu" id="kAdminSelector">
-					{{#each collections}}
-						<li><a href="#" data-collection="{{ this }}">{{ this }}</a></li>
-					{{/each}}
-					<li class="divider"></li>
-					<li><a href="#" data-collection="">Reset</a></li>
-				</ul>
-				<!-- TODO: Reset -->
-			</div>
+		{{> kAdminPanel}}
+	</div>
+</template>
+<template name="kAdminFluid">
+	<div class="container-fluid" id="kAdmin">
+		{{> kAdminPanel}}
+	</div>
+</template>
+
+<template name="kAdminPanel">
+	<div class="row">
+		<div class="col-md-7">
+			{{#if currentCollection}}
+				<h1>{{ panelName }} - Managing {{currentCollection}}</h1>
+			{{else}}
+				<h1>{{ panelName }}</h1>
+			{{/if}}
 		</div>
+		<div class="col-md-2 text-right">
+			<br />
+			{{#if currentCollection}}
+				<a class="btn btn-success btn-block action" data-action="create">New</a>
+			{{/if}}
+		</div>
+		<div class="col-md-3 text-right">
+			<br />
+			<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
+			{{ currentlyManaging }} <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right" role="menu" id="kAdminSelector">
+				{{#each collections}}
+					<li><a href="#" data-collection="{{ this }}">{{ this }}</a></li>
+				{{/each}}
+				<li class="divider"></li>
+				<li><a href="#" data-collection="">Reset</a></li>
+			</ul>
+			<!-- TODO: Reset -->
+		</div>
+	</div>
 
-		{{#if loading}}
-			{{> spinner}}
-		{{/if}}
+	{{#if loading}}
+		{{> spinner}}
+	{{/if}}
 
-		{{#if currentCollection}}
-			{{#if actionCenter}}
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="panel" id="kAdminActionCenter">
-							<div class="panel-body">
-								{{#if actionCenterCheck 'create'}}
-									{{#if collection.templates.new }}
-										{{> DynamicTemplate template=collection.templates.new.name }}
-									{{else}}
-										<h3>Create</h3>
-										{{> quickForm collection=currentCollection id="kAdminForm" type="insert"}}
-									{{/if}}
+	{{#if currentCollection}}
+		{{#if actionCenter}}
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel" id="kAdminActionCenter">
+						<div class="panel-body">
+							{{#if actionCenterCheck 'create'}}
+								{{#if collection.templates.new }}
+									{{> DynamicTemplate template=collection.templates.new.name }}
+								{{else}}
+									<h3>Create</h3>
+									{{> quickForm collection=currentCollection id="kAdminForm" type="insert"}}
 								{{/if}}
-								{{#if actionCenterCheck 'read'}}
-									{{#if collection.templates.view }}
-										{{> DynamicTemplate template=collection.templates.view.name  data=currentDoc }}
-									{{else}}
-										<h3>View</h3>
-										<pre>{{ formattedCurrentDoc }}</pre>
-									{{/if}}
+							{{/if}}
+							{{#if actionCenterCheck 'read'}}
+								{{#if collection.templates.view }}
+									{{> DynamicTemplate template=collection.templates.view.name  data=currentDoc }}
+								{{else}}
+									<h3>View</h3>
+									<pre>{{ formattedCurrentDoc }}</pre>
 								{{/if}}
-								{{#if actionCenterCheck 'update'}}
-									{{#if collection.templates.edit }}
-										{{> DynamicTemplate template=collection.templates.edit.name data=currentDoc }}
-									{{else}}
-										<h3>Update</h3>
-										{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc}}
-									{{/if}}
+							{{/if}}
+							{{#if actionCenterCheck 'update'}}
+								{{#if collection.templates.edit }}
+									{{> DynamicTemplate template=collection.templates.edit.name data=currentDoc }}
+								{{else}}
+									<h3>Update</h3>
+									{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc}}
 								{{/if}}
-								{{#if actionCenterCheck 'delete'}}
-									<h3>Delete</h3>
-									{{#quickRemoveButton collection=currentCollection _id=currentDoc._id onSuccess=deleteSuccess onError=deleteError class="btn btn-danger btn-block"}}
-										Confirm Deletion
-									{{/quickRemoveButton}}
-									<br />
-								{{/if}}
-								<button id="cancelAction" class="btn btn-danger btn-block">Cancel</button>
-							</div>
+							{{/if}}
+							{{#if actionCenterCheck 'delete'}}
+								<h3>Delete</h3>
+								{{#quickRemoveButton collection=currentCollection _id=currentDoc._id onSuccess=deleteSuccess onError=deleteError class="btn btn-danger btn-block"}}
+									Confirm Deletion
+								{{/quickRemoveButton}}
+								<br />
+							{{/if}}
+							<button id="cancelAction" class="btn btn-danger btn-block">Cancel</button>
 						</div>
 					</div>
 				</div>
-			{{/if}}
-			<div class="row">
-				<div class="col-sm-12">
-					<table class="table">
-						<thead>
-							<tr>
-								{{#each collection.tableColumns}}
-									{{#if sortable this }}
-										<th class="sortable" id="{{ name }}">
-											{{ label }}
-											{{#if fieldBeingSorted name}}
-												<i class="{{ sortIcon }}"></i>
-											{{/if}}
-										</th>
-									{{else}}
-										<th>
-											{{ label }}
-										</th>
-									{{/if}}
-								{{/each}}
-								{{#unless collection.tableColumns}}
-									<th>ID</th>
-								{{/unless}}
-								<th class="text-center actionHeader">Actions</th>
-							</tr>
-							<tr>
-								{{#each collection.tableColumns}}
-									<th>
-										{{#if searchable this }}
-											<input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" />
+			</div>
+		{{/if}}
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table">
+					<thead>
+						<tr>
+							{{#each collection.tableColumns}}
+								{{#if sortable this }}
+									<th class="sortable" id="{{ name }}">
+										{{ label }}
+										{{#if fieldBeingSorted name}}
+											<i class="{{ sortIcon }}"></i>
 										{{/if}}
 									</th>
-								{{/each}}
-								{{#unless collection.tableColumns}}
-									<th>ID</th>
-								{{/unless}}
-								<th>
-									<button class="btn btn-block" id="filterTrigger">Filter</button>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{{#each rows}}
-								<tr>
-									{{#each getAttrs collection.tableColumns}}
-										<td>{{ this }}</td>
-									{{/each}}
-									{{#unless collection.tableColumns}}
-										<td>{{ _id }}</td>
-									{{/unless}}
-									<td class="text-right">
-										<div class="btn-group" role="toolbar" aria-label="Admin actions">
-											<button class="btn-group btn-info action" data-action="read">View</button>
-											<button class="btn-group btn-warning action" data-action="update">Edit</button>
-											<button class="btn-group btn-danger action" data-action="delete">Delete</button>
-										</div>
-									</td>
-								</tr>
+								{{else}}
+									<th>
+										{{ label }}
+									</th>
+								{{/if}}
 							{{/each}}
-						</tbody>
-						<tfoot>
+							{{#unless collection.tableColumns}}
+								<th>ID</th>
+							{{/unless}}
+							<th class="text-center actionHeader">Actions</th>
+						</tr>
+						<tr>
+							{{#each collection.tableColumns}}
+								<th>
+									{{#if searchable this }}
+										<input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" />
+									{{/if}}
+								</th>
+							{{/each}}
+							{{#unless collection.tableColumns}}
+								<th>ID</th>
+							{{/unless}}
+							<th>
+								<button class="btn btn-block" id="filterTrigger">Filter</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each rows}}
 							<tr>
-								{{#each collection.tableColumns}}
-									<th>{{ label }}</th>
+								{{#each getAttrs collection.tableColumns}}
+									<td>{{ this }}</td>
 								{{/each}}
 								{{#unless collection.tableColumns}}
-									<th>ID</th>
+									<td>{{ _id }}</td>
 								{{/unless}}
-								<th class="text-center">Actions</th>
+								<td class="text-right">
+									<div class="btn-group" role="toolbar" aria-label="Admin actions">
+										<button class="btn-group btn-info action" data-action="read">View</button>
+										<button class="btn-group btn-warning action" data-action="update">Edit</button>
+										<button class="btn-group btn-danger action" data-action="delete">Delete</button>
+									</div>
+								</td>
 							</tr>
-						</tfoot>
-					</table>
-				</div>
+						{{/each}}
+					</tbody>
+					<tfoot>
+						<tr>
+							{{#each collection.tableColumns}}
+								<th>{{ label }}</th>
+							{{/each}}
+							{{#unless collection.tableColumns}}
+								<th>ID</th>
+							{{/unless}}
+							<th class="text-center">Actions</th>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
-			<div class="row">
-				<div class="col-md-9">
-					<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
-				</div>
-				<div class="col-md-3 text-right">
-					<!-- Page number in future release 0.2.0 -->
-					<div class="btn-group" role="toolbar" aria-label="Pagination">
-						{{#if prev}}
-							<button id="prev" class="btn btn-primary">Prev</button>
-						{{/if}}
-						{{#if next}}
-							<button id="next" class="btn btn-primary">Next</button>
-						{{/if}}
-					</div>
-					<br /><br />
-				</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
 			</div>
-		{{else}}
-			<h3>Please select a module from the dropdown on top right.</h3>
-			{{#unless collections}}
-				<p>If you do not see modules in the dropdown, please create the kAdminConfig in your app's common code.</p>
-				<p><a href="https://github.com/kaoskeya/meteor-admin#config-file" target="_blank">Config file</a> instructions.</p>
-			{{/unless}}
-		{{/if}}
-	</div>
+			<div class="col-md-3 text-right">
+				<!-- Page number in future release 0.2.0 -->
+				<div class="btn-group" role="toolbar" aria-label="Pagination">
+					{{#if prev}}
+						<button id="prev" class="btn btn-primary">Prev</button>
+					{{/if}}
+					{{#if next}}
+						<button id="next" class="btn btn-primary">Next</button>
+					{{/if}}
+				</div>
+				<br /><br />
+			</div>
+		</div>
+	{{else}}
+		<h3>Please select a module from the dropdown on top right.</h3>
+		{{#unless collections}}
+			<p>If you do not see modules in the dropdown, please create the kAdminConfig in your app's common code.</p>
+			<p><a href="https://github.com/kaoskeya/meteor-admin#config-file" target="_blank">Config file</a> instructions.</p>
+		{{/unless}}
+	{{/if}}
 </template>

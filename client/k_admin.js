@@ -1,4 +1,4 @@
-Template.kAdmin.helpers({
+Template.kAdminPanel.helpers({
 	// Essentials, seting up collections, active collection, etc
 	collections: function() {
 		return _.keys( Template.instance().config.collections );
@@ -120,7 +120,7 @@ Template.kAdmin.helpers({
 	},
 });
 
-Template.kAdmin.events({
+Template.kAdminPanel.events({
 	// Collection selector
 	'click #kAdminSelector a': function(e, instance) {
 		instance.currentCollection.set( $(e.target).data('collection') );
@@ -173,7 +173,7 @@ Template.kAdmin.events({
 	}
 });
 
-Template.kAdmin.created = function() {
+Template.kAdminPanel.created = function() {
 	var instance = this;
 	if( typeof kAdminConfig != 'undefined' ) {
 		instance.config = kAdminConfig;
@@ -240,7 +240,7 @@ Template.kAdmin.created = function() {
 	});
 }
 
-Template.kAdmin.rendered = function() {
+Template.kAdminPanel.rendered = function() {
 	AutoForm.hooks({
 		// Rolling with the same ID for all forms currently.
 		kAdminForm: {
@@ -256,5 +256,5 @@ Template.kAdmin.rendered = function() {
 	});
 }
 
-Template.kAdmin.destroyed = function() {
+Template.kAdminPanel.destroyed = function() {
 }

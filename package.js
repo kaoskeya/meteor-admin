@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.1.4',
+  version: '0.1.5',
   // Brief, one-line summary of the package.
   summary: 'Simple autoform based admin that integrates with your bootstrap design.',
   // URL to the Git repository containing the source code for this package.
