@@ -4,7 +4,8 @@ Template.kAdminPanel.helpers({
 		return _.keys( Template.instance().config.collections );
 	},
 	collection: function() {
-		return Template.instance().config.collections[Template.instance().currentCollection.get()];
+		if( Template.instance().config )
+			return Template.instance().config.collections[Template.instance().currentCollection.get()];
 	},
 	panelName: function() {
 		return Template.instance().config.name || 'Admin';
@@ -25,10 +26,20 @@ Template.kAdminPanel.helpers({
 	getAttrs: function(cols) {
 		var self = this;
 		return _.map(cols, function(col){
-			keys = _.pick(col, 'name', 'collection', 'collection_property');
+			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort');
 			if(keys['collection'] == undefined) {
-				// If it does not have an aux collection
-				return self[ keys['name'] ]
+				// If it does not have an aux collection, return value
+				if( keys['dateFormat'] == undefined )
+					return self[ keys['name'] ]
+				else {
+					if( self[ keys['name'] ] ) {
+						// If value is set, return time in user preferred format.
+						if( keys['dateUnix'] == true )
+							return moment.unix( self[ keys['name'] ] ).format( keys['dateFormat'] )
+						else
+							return moment( self[ keys['name'] ] ).format( keys['dateFormat'] )
+					}
+				}
 			} else {
 				// If it has an aux collection
 				if( self[keys['name']] instanceof Array ) {
@@ -60,11 +71,12 @@ Template.kAdminPanel.helpers({
 	},
 	searchable: function(column) {
 		// Currently only text search. Foreign-key search could be added later. Need to check.
-		return !column.hasOwnProperty('collection');
+		// Even dates cannot be filtered currently. needs lot more work like range, before, after, etc, possibly 0.3
+		return !(column.hasOwnProperty('collection') || column.hasOwnProperty('dateFormat') );
 	},
 	sortable: function(column) {
 		// Currently only own field search. Foreign-key sort could be added later. Need to check. lept separate from searchable as that feature might be possible before this.
-		return !column.hasOwnProperty('collection');
+		return !(column.hasOwnProperty('collection') || column.hasOwnProperty('dontSort') );
 	},
 	// CRUD
 	actionCenter: function() {

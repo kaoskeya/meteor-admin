@@ -46,7 +46,8 @@ kAdminConfig = {
 		Enquiry: {
 			tableColumns: [
 				{label: 'Message', name: 'message'},
-				{label: 'Posted by', name: 'user', collection: 'Meteor.users', collection_property: 'profile.name' } // Dot notation
+				{label: 'Posted by', name: 'user', collection: 'Meteor.users', collection_property: 'profile.name' }, // Dot notation
+				{ label: 'Added On', name: 'addedOn', dateFormat: 'Do MMM YY hh:mm:ss', dateUnix: true} // Do not set `dateUnix` if not storing unix timestamp.
 			]
 			templates: {
 				"new": { name: 'yourCustomNewTemplate' },
@@ -64,7 +65,7 @@ kAdminConfig = {
 			tableColumns: [
 				{label: 'Business Name', name: 'business_name'},
 				{label: 'City', name: 'city'},
-				{label: 'Phone', name: 'phone'},
+				{label: 'Phone', name: 'phone', dontSort: true}, // Cannot sort by this field
 				{label: 'Primary Business Type', name: 'primary_business_type'},
 				{label: 'Admin', name: 'admins', collection: 'User', collection_property: 'email' }
 			]

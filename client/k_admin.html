@@ -89,7 +89,7 @@
 		{{/if}}
 		<div class="row">
 			<div class="col-sm-12">
-				<table class="table">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							{{#each collection.tableColumns}}
@@ -115,10 +115,14 @@
 							{{#each collection.tableColumns}}
 								<th>
 									{{#if searchable this }}
-										<input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" />
+										{{#autoForm collection=currentCollection }}
+											{{> afFieldInput name=name class="filters form-control" }}
+											<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
+										{{/autoForm}}
 									{{/if}}
 								</th>
 							{{/each}}
+
 							{{#unless collection.tableColumns}}
 								<th>ID</th>
 							{{/unless}}
