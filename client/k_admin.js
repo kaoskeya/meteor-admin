@@ -181,6 +181,7 @@ Template.kAdminPanel.events({
 				filter[$(field).attr('name')] = $(field).val();
 			}
 		});
+		instance.pagination.set('skip', 0);
 		instance.filters.set( JSON.stringify(filter) );
 	}
 });
