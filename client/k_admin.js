@@ -130,6 +130,32 @@ Template.kAdminPanel.helpers({
 		else
 			return Template.instance().pagination.get('skip') + Template.instance().pagination.get('limit');
 	},
+	omitFieldsForEdit: function() {
+		var globalOmit = [];
+		if( Template.instance().config.hasOwnProperty('autoForm') )
+			if( Template.instance().config.autoForm.hasOwnProperty('omitFields') )
+				var globalOmit = Template.instance().config.autoForm.omitFields;
+		if( Template.instance().config.collections[Template.instance().currentCollection.get()].hasOwnProperty('omitFields') ) {
+			var omit = Template.instance().config.collections[Template.instance().currentCollection.get()].omitFields;
+			if( omit.hasOwnProperty('edit') )
+				return _.union( omit.edit, globalOmit )
+			else
+				return _.union( omit, globalOmit )
+		}
+	},
+	omitFieldsForCreate: function() {
+		var globalOmit = [];
+		if( Template.instance().config.hasOwnProperty('autoForm') )
+			if( Template.instance().config.autoForm.hasOwnProperty('omitFields') )
+				var globalOmit = Template.instance().config.autoForm.omitFields;
+		if( Template.instance().config.collections[Template.instance().currentCollection.get()].hasOwnProperty('omitFields') ) {
+			var omit = Template.instance().config.collections[Template.instance().currentCollection.get()].omitFields;
+			if( omit.hasOwnProperty('new') )
+				return _.union( omit.new, globalOmit )
+			else
+				return _.union( omit, globalOmit )
+		}
+	}
 });
 
 Template.kAdminPanel.events({

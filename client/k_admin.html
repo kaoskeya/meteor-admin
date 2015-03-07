@@ -55,12 +55,12 @@
 									{{> DynamicTemplate template=collection.templates.new.name }}
 								{{else}}
 									<h3>Create</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="insert"}}
+									{{> quickForm collection=currentCollection id="kAdminForm" type="insert" omitFields=omitFieldsForCreate	}}
 								{{/if}}
 							{{/if}}
 							{{#if actionCenterCheck 'read'}}
 								{{#if collection.templates.view }}
-									{{> DynamicTemplate template=collection.templates.view.name  data=currentDoc }}
+									{{> DynamicTemplate template=collection.templates.view.name data=currentDoc }}
 								{{else}}
 									<h3>View</h3>
 									<pre>{{ formattedCurrentDoc }}</pre>
@@ -71,7 +71,7 @@
 									{{> DynamicTemplate template=collection.templates.edit.name data=currentDoc }}
 								{{else}}
 									<h3>Update</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc}}
+									{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc omitFields=omitFieldsForEdit}}
 								{{/if}}
 							{{/if}}
 							{{#if actionCenterCheck 'delete'}}
@@ -89,79 +89,81 @@
 		{{/if}}
 		<div class="row">
 			<div class="col-sm-12">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							{{#each collection.tableColumns}}
-								{{#if sortable this }}
-									<th class="sortable" id="{{ name }}">
-										{{ label }}
-										{{#if fieldBeingSorted name}}
-											<i class="{{ sortIcon }}"></i>
-										{{/if}}
-									</th>
-								{{else}}
-									<th>
-										{{ label }}
-									</th>
-								{{/if}}
-							{{/each}}
-							{{#unless collection.tableColumns}}
-								<th>ID</th>
-							{{/unless}}
-							<th class="text-center actionHeader">Actions</th>
-						</tr>
-						<tr>
-							{{#each collection.tableColumns}}
-								<th>
-									{{#if searchable this }}
-										{{#autoForm collection=currentCollection }}
-											{{> afFieldInput name=name class="filters form-control" }}
-											<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
-										{{/autoForm}}
-									{{/if}}
-								</th>
-							{{/each}}
-
-							{{#unless collection.tableColumns}}
-								<th>ID</th>
-							{{/unless}}
-							<th>
-								<button class="btn btn-block" id="filterTrigger">Filter</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{{#each rows}}
+				<div class="panel">
+					<table class="table table-bordered">
+						<thead>
 							<tr>
-								{{#each getAttrs collection.tableColumns}}
-									<td>{{ this }}</td>
+								{{#each collection.tableColumns}}
+									{{#if sortable this }}
+										<th class="sortable" id="{{ name }}">
+											{{ label }}
+											{{#if fieldBeingSorted name}}
+												<i class="{{ sortIcon }}"></i>
+											{{/if}}
+										</th>
+									{{else}}
+										<th>
+											{{ label }}
+										</th>
+									{{/if}}
 								{{/each}}
 								{{#unless collection.tableColumns}}
-									<td>{{ _id }}</td>
+									<th>ID</th>
 								{{/unless}}
-								<td class="text-right">
-									<div class="btn-group" role="toolbar" aria-label="Admin actions">
-										<button class="btn-group btn-info action" data-action="read">View</button>
-										<button class="btn-group btn-warning action" data-action="update">Edit</button>
-										<button class="btn-group btn-danger action" data-action="delete">Delete</button>
-									</div>
-								</td>
+								<th class="text-center actionHeader">Actions</th>
 							</tr>
-						{{/each}}
-					</tbody>
-					<tfoot>
-						<tr>
-							{{#each collection.tableColumns}}
-								<th>{{ label }}</th>
+							<tr>
+								{{#each collection.tableColumns}}
+									<th>
+										{{#if searchable this }}
+											{{#autoForm collection=currentCollection }}
+												{{> afFieldInput name=name class="filters form-control" }}
+												<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
+											{{/autoForm}}
+										{{/if}}
+									</th>
+								{{/each}}
+
+								{{#unless collection.tableColumns}}
+									<th>ID</th>
+								{{/unless}}
+								<th>
+									<button class="btn btn-block" id="filterTrigger">Filter</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each rows}}
+								<tr>
+									{{#each getAttrs collection.tableColumns}}
+										<td>{{ this }}</td>
+									{{/each}}
+									{{#unless collection.tableColumns}}
+										<td>{{ _id }}</td>
+									{{/unless}}
+									<td class="text-right">
+										<div class="btn-group" role="toolbar" aria-label="Admin actions">
+											<button class="btn-group btn-info action" data-action="read">View</button>
+											<button class="btn-group btn-warning action" data-action="update">Edit</button>
+											<button class="btn-group btn-danger action" data-action="delete">Delete</button>
+										</div>
+									</td>
+								</tr>
 							{{/each}}
-							{{#unless collection.tableColumns}}
-								<th>ID</th>
-							{{/unless}}
-							<th class="text-center">Actions</th>
-						</tr>
-					</tfoot>
-				</table>
+						</tbody>
+						<tfoot>
+							<tr>
+								{{#each collection.tableColumns}}
+									<th>{{ label }}</th>
+								{{/each}}
+								{{#unless collection.tableColumns}}
+									<th>ID</th>
+								{{/unless}}
+								<th class="text-center">Actions</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="row">

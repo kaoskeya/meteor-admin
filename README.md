@@ -70,6 +70,26 @@ kAdminConfig = {
 				{label: 'Admin', name: 'admins', collection: 'User', collection_property: 'email' }
 			]
 		},
+        Slide: {
+            tableColumns: [
+                {label: 'Title', name: 'title'},
+                {label: 'Priority', name: 'priority'}
+            ],
+            omitFields: {
+            	new: [ 'time' ], // Ommitted in create form
+                edit: [ 'image' ] // Ommitted in update form
+            },
+        },
+        Sport: {
+            tableColumns: [
+                {label: 'Name', name: 'name'},
+                {label: 'Priority', name: 'priority'}
+            ],
+            omitFields: [ 'name' ] // Omitted in both create and update forms.
+        },
+	},
+	autoForm: {
+        omitFields: ['createdAt', 'updatedAt'] // Ommitted in all forms
 	}
 }
 ```
