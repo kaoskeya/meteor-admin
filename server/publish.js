@@ -30,13 +30,25 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 								if( aux_collections.length > 0 ) {
 									if( primary[aux_collections[0].name] instanceof Array ) {
 										// One to Many
-										return global[aux_collections[0].collection].find(
-											{ _id: { $in: primary[aux_collections[0].name] } }
-										);
+										if( aux_collections[0].collection != 'Meteor.users' ) {
+											return global[aux_collections[0].collection].find(
+												{ _id: { $in: primary[aux_collections[0].name] } }
+											);
+										} else {
+											return Meteor.users.find(
+												{ _id: { $in: primary[aux_collections[0].name] } }
+											);
+										}
 									} else {
-										return global[aux_collections[0].collection].find(
-											{ _id: primary[aux_collections[0].name] }
-										);
+										if( aux_collections[0].collection != 'Meteor.users' ) {
+											return global[aux_collections[0].collection].find(
+												{ _id: primary[aux_collections[0].name] }
+											);
+										} else {
+											return Meteor.users.find(
+												{ _id: primary[aux_collections[0].name] }
+											);
+										}
 									}
 								}
 							//})

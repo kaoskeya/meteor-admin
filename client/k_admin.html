@@ -117,7 +117,7 @@
 									<th>
 										{{#if searchable this }}
 											{{#autoForm collection=currentCollection }}
-												{{> afFieldInput name=name class="filters form-control" }}
+												{{> afFieldInput name=name class="filters form-control input-sm" }}
 												<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
 											{{/autoForm}}
 										{{/if}}
@@ -127,8 +127,11 @@
 								{{#unless collection.tableColumns}}
 									<th>ID</th>
 								{{/unless}}
-								<th>
-									<button class="btn btn-block" id="filterTrigger">Filter</button>
+								<th class="text-right">
+									<div class="btn-group" role="toolbar" aria-label="Admin actions">
+										<button class="btn btn-info" id="filterTrigger">Filter</button>
+										<button class="btn btn-warning" id="filterReset">Reset</button>
+									</div>
 								</th>
 							</tr>
 						</thead>

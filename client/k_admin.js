@@ -26,7 +26,7 @@ Template.kAdminPanel.helpers({
 	getAttrs: function(cols) {
 		var self = this;
 		return _.map(cols, function(col){
-			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort');
+			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort', 'collection_helper');
 			if(keys['collection'] == undefined) {
 				// If it does not have an aux collection, return value
 				if( keys['dateFormat'] == undefined )
@@ -42,6 +42,7 @@ Template.kAdminPanel.helpers({
 				}
 			} else {
 				// If it has an aux collection
+
 				if( self[keys['name']] instanceof Array ) {
 					// One to many
 					function index(obj,i) {return obj[i]};
@@ -209,6 +210,10 @@ Template.kAdminPanel.events({
 		});
 		instance.pagination.set('skip', 0);
 		instance.filters.set( JSON.stringify(filter) );
+	},
+	'click #filterReset': function(e, instance) {
+		$('.filters').val('')
+		$('#filterTrigger').trigger('click')
 	}
 });
 

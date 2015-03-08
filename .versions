@@ -19,8 +19,8 @@ iron:core@1.0.7
 iron:dynamic-template@1.0.7
 jquery@1.11.3
 json@1.0.2
-kaoskeya:admin@0.1.5
-local-test:kaoskeya:admin@0.1.5
+kaoskeya:admin@0.1.6
+local-test:kaoskeya:admin@0.1.6
 logging@1.0.6
 meteor@1.1.4
 minifiers@1.1.3
