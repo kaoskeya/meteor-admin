@@ -42,7 +42,10 @@ Template.kAdminPanel.helpers({
 				}
 			} else {
 				// If it has an aux collection
-
+				if( keys.hasOwnProperty('collection_helper') ) {
+					// substr stuff because yogiben:admin uses function.
+					return self[ keys['collection_helper'].substr( 0, keys['collection_helper'].length - 2 ) ]()
+				}
 				if( self[keys['name']] instanceof Array ) {
 					// One to many
 					function index(obj,i) {return obj[i]};
