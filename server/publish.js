@@ -24,34 +24,47 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 				children: [
 					{
 						find: function(primary) {
-							//return _.each(aux_collections, function(aux){
+							a = _.map(aux_collections, function(aux){
 								// TBD: Loop through aux_collections if multiple relations are set.
 								// Return only the requested field.
-								if( aux_collections.length > 0 ) {
-									if( primary[aux_collections[0].name] instanceof Array ) {
-										// One to Many
-										if( aux_collections[0].collection != 'Meteor.users' ) {
-											return global[aux_collections[0].collection].find(
-												{ _id: { $in: primary[aux_collections[0].name] } }
-											);
-										} else {
-											return Meteor.users.find(
-												{ _id: { $in: primary[aux_collections[0].name] } }
-											);
-										}
+								if( primary[aux.name] instanceof Array ) {
+									// One to Many
+									if( aux.collection != 'Meteor.users' ) {
+										return global[aux.collection].find(
+											{ _id: { $in: primary[aux.name] } }
+										);
 									} else {
-										if( aux_collections[0].collection != 'Meteor.users' ) {
-											return global[aux_collections[0].collection].find(
-												{ _id: primary[aux_collections[0].name] }
-											);
-										} else {
-											return Meteor.users.find(
-												{ _id: primary[aux_collections[0].name] }
-											);
-										}
+										return Meteor.users.find(
+											{ _id: { $in: primary[aux.name] } }
+										);
+									}
+								} else {
+									if( aux.collection != 'Meteor.users' ) {
+										return global[aux.collection].find(
+											{ _id: primary[aux.name] }
+										);
+									} else {
+										return Meteor.users.find(
+											{ _id: primary[aux.name] }
+										);
 									}
 								}
-							//})
+							})
+							return a[0];
+						}
+					},
+					{
+						find: function(primary) {
+							if( a.length > 1 ) {
+								return a[1]
+							}
+						}
+					},
+					{
+						find: function(primary) {
+							if( a.length > 2 ) {
+								return a[2]
+							}
 						}
 					}
 				]
