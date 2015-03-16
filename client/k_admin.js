@@ -26,7 +26,7 @@ Template.kAdminPanel.helpers({
 	getAttrs: function(cols) {
 		var self = this;
 		return _.map(cols, function(col){
-			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort', 'collection_helper');
+			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort', 'collection_helper', 'dateUTC');
 			if(keys['collection'] == undefined) {
 				// If it does not have an aux collection, return value
 				if( keys['dateFormat'] == undefined )
@@ -34,10 +34,17 @@ Template.kAdminPanel.helpers({
 				else {
 					if( self[ keys['name'] ] ) {
 						// If value is set, return time in user preferred format.
-						if( keys['dateUnix'] == true )
-							return moment.unix( self[ keys['name'] ] ).format( keys['dateFormat'] )
-						else
-							return moment( self[ keys['name'] ] ).format( keys['dateFormat'] )
+						if( keys['dateUTC'] == true ) {
+							if( keys['dateUnix'] == true )
+								return moment.utc( self[ keys['name'] ] * 1000 ).format( keys['dateFormat'] )
+							else
+								return moment.utc( self[ keys['name'] ] ).format( keys['dateFormat'] )
+						} else {
+							if( keys['dateUnix'] == true )
+								return moment.unix( self[ keys['name'] ] ).format( keys['dateFormat'] )
+							else
+								return moment( self[ keys['name'] ] ).format( keys['dateFormat'] )
+						}
 					}
 				}
 			} else {
@@ -116,11 +123,23 @@ Template.kAdminPanel.helpers({
 		return parseInt(Template.instance().sort.get('order'))===1?'glyphicon glyphicon-chevron-up':'glyphicon glyphicon-chevron-down';
 	},
 	// Pagination
+	perPage: function() {
+		return Template.instance().pagination.get('limit')
+	},
+	pageNumber: function() {
+		return ( Template.instance().pagination.get('skip') / Template.instance().pagination.get('limit') ) + 1
+	},
+	perPageSelect: function(val) {
+		return ( parseInt(Template.instance().pagination.get('limit')) == val)?'selected':'';
+	},
 	totalRows: function() {
 		return Counts.get('currentCollectionCount');
 	},
 	next: function() {
 		return ( Template.instance().pagination.get('skip') + Template.instance().pagination.get('limit') ) <= Counts.get('currentCollectionCount');
+	},
+	pages: function() {
+		return _.range(1, Counts.get('currentCollectionCount') / Template.instance().pagination.get('limit') + 1 )
 	},
 	prev: function() {
 		return Template.instance().pagination.get('skip') != 0;
@@ -167,7 +186,7 @@ Template.kAdminPanel.events({
 	'click #kAdminSelector a': function(e, instance) {
 		instance.currentCollection.set( $(e.target).data('collection') );
 		instance.pagination.set('skip', 0);
-		instance.pagination.set('limit', instance.perPage.get());
+		instance.pagination.set('limit', 10);
 		instance.sort.set('field');
 		instance.sort.set('order', 1);
 		instance.filters.set();
@@ -188,10 +207,17 @@ Template.kAdminPanel.events({
 	},
 	// Pagination
 	'click #next': function(e, instance) {
-		instance.pagination.set('skip', instance.pagination.get('skip') + instance.perPage.get())
+		instance.pagination.set( 'skip', instance.pagination.get('skip') + instance.pagination.get('limit'))
 	},
 	'click #prev': function(e, instance) {
-		instance.pagination.set('skip', instance.pagination.get('skip') - instance.perPage.get())
+		instance.pagination.set( 'skip', instance.pagination.get('skip') - instance.pagination.get('limit'))
+	},
+	'click #perPageSelect a': function(e, instance) {
+		instance.pagination.set( 'limit', parseInt( $(e.target).text() ) )
+		instance.pagination.set( 'skip', 0)
+	},
+	'click #pageNumberSelect a': function(e, instance) {
+		instance.pagination.set( 'skip', ( parseInt( $(e.target).text() ) - 1 ) * instance.pagination.get('limit') )
 	},
 	//Sort
 	'click .sortable': function(e, instance) {
@@ -235,13 +261,13 @@ Template.kAdminPanel.created = function() {
 	instance.action = new ReactiveVar();
 	instance.currentDoc = new ReactiveVar();
 	// Next/Prev increments/decrements skip by this value.
-	instance.perPage = new ReactiveVar(10);
+	// instance.perPage = new ReactiveVar(10);
 	instance.loading = new ReactiveVar(true);
 
 	// Use for pagination
 	instance.pagination = new ReactiveDict;
 	instance.pagination.set('skip', 0);
-	instance.pagination.set('limit', instance.perPage.get());
+	instance.pagination.set('limit', 10 );
 
 	// Use for sort
 	instance.sort = new ReactiveDict;

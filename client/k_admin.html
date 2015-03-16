@@ -170,11 +170,37 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-3">
 				<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
 			</div>
+			<div class="col-md-3 text-center">
+				<div class="dropdown" id="perPageSelect">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+						{{ perPage }} per page
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+						<li role="presentation"><a role="menuitem">10</a></li>
+						<li role="presentation"><a role="menuitem">25</a></li>
+						<li role="presentation"><a role="menuitem">50</a></li>
+						<li role="presentation"><a role="menuitem">100</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-3 text-center">
+				<div class="dropdown" id="pageNumberSelect">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+						Page number {{ pageNumber }}
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+						{{#each pages}}
+							<li role="presentation"><a role="menuitem">{{ this }}</a></li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
 			<div class="col-md-3 text-right">
-				<!-- Page number in future release 0.2.0 -->
 				<div class="btn-group" role="toolbar" aria-label="Pagination">
 					{{#if prev}}
 						<button id="prev" class="btn btn-primary">Prev</button>
