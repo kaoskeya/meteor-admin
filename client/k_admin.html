@@ -45,6 +45,10 @@
 	{{/if}}
 
 	{{#if currentCollection}}
+		{{#if collection.templates.crud }}
+			{{> DynamicTemplate template=collection.templates.crud.name data=currentDoc }}
+		{{else}}
+
 		{{#if actionCenter}}
 			<div class="row">
 				<div class="col-sm-12">
@@ -212,6 +216,7 @@
 				<br /><br />
 			</div>
 		</div>
+		{{/if}}
 	{{else}}
 		<h3>Please select a module from the dropdown on top right.</h3>
 		{{#unless collections}}

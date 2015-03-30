@@ -14,14 +14,20 @@ Template.kAdminPanel.helpers({
 		return Template.instance().currentCollection.get() || 'Choose module';
 	},
 	currentCollection: function() {
-		return Template.instance().currentCollection.get();
+		if( Template.instance().currentCollection.get() == 'Meteor.users' )
+			return "Meteor.users";
+		else
+			return Template.instance().currentCollection.get();
 	},
 	loading: function() {
 		return Template.instance().loading.get()
 	},
 	// Printing the table.
 	rows: function() {
-		return window[ Template.instance().currentCollection.get() ].find().fetch();
+		if( Template.instance().currentCollection.get() == 'Meteor.users' )
+			return Meteor.users.find().fetch()
+		else
+			return window[ Template.instance().currentCollection.get() ].find().fetch();
 	},
 	getAttrs: function(cols) {
 		var self = this;
@@ -36,14 +42,14 @@ Template.kAdminPanel.helpers({
 						// If value is set, return time in user preferred format.
 						if( keys['dateUTC'] == true ) {
 							if( keys['dateUnix'] == true )
-								return moment.utc( self[ keys['name'] ] * 1000 ).format( keys['dateFormat'] )
-							else
-								return moment.utc( self[ keys['name'] ] ).format( keys['dateFormat'] )
-						} else {
-							if( keys['dateUnix'] == true )
 								return moment.unix( self[ keys['name'] ] ).format( keys['dateFormat'] )
 							else
 								return moment( self[ keys['name'] ] ).format( keys['dateFormat'] )
+						} else {
+							if( keys['dateUnix'] == true )
+								return moment.utc( self[ keys['name'] ] * 1000 ).format( keys['dateFormat'] )
+							else
+								return moment.utc( self[ keys['name'] ] ).format( keys['dateFormat'] )
 						}
 					}
 				}
