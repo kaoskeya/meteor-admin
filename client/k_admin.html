@@ -120,7 +120,7 @@
 								{{#each collection.tableColumns}}
 									<th>
 										{{#if searchable this }}
-											{{#autoForm collection=currentCollection }}
+											{{#autoForm collection=currentCollection id=randomId }}
 												{{> afFieldInput name=name class="filters form-control input-sm" }}
 												<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
 											{{/autoForm}}

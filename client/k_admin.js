@@ -184,6 +184,9 @@ Template.kAdminPanel.helpers({
 			else
 				return _.union( omit, globalOmit )
 		}
+	},
+	randomId: function() {
+		return "randomIdForAutoForm" + Math.ceil( Math.random() * 10000 )
 	}
 });
 
