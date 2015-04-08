@@ -1,14 +1,13 @@
 # meteor-admin
 `$ meteor add kaoskeya:admin`
 
-**Under active development currently. [2015-2-19]**
-
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 [yogiben:admin](https://github.com/yogiben/meteor-admin) was not working out too well for us, so built this.
 
 - [Dependencies](#dependencies)
 - [Setup](#setup)
 - [Config File](#config-file)
+- [User and Roles Management](#user-and-roles-management)/
 - [Custom Template Instructions](#custom-template-instructions)
 - [Screeshots](#screenshots)
 - [TODO](#todo)
@@ -43,6 +42,14 @@ E.g:
 kAdminConfig = {
 	name: 'Your Panel Name',
 	collections: {
+		"Meteor.users": { 
+			tableColumns: [], 
+			templates: { 
+				"crud": { 
+					name: 'accountsAdmin' 
+				} 
+			} 
+		},
 		Enquiry: {
 			tableColumns: [
 				{label: 'Message', name: 'message'},
@@ -98,6 +105,10 @@ Will try to maintain the structure of yogiben:admin AdminConfig so as to switch 
 
 You will have to check for user authentication and level before you send them to a page with the `kAdmin` template. The publish functions currently publishes only if the user is an 'admin'.
 
+#### User and Roles Management ####
+
+See [#13](https://github.com/kaoskeya/meteor-admin/issues/13) for instructions. Needs better documentation, will do by 11th April.
+
 #### Custom Template instructions ####
 
 On completion of new/edit action in your custom templates' AutoForm, to close the open window, use the following code to trigger the appropriate actions.
@@ -134,11 +145,12 @@ Filtering example below.
 ## TODO ##
 
 * Tests.
-* Create/View/Edit/Delete custom templates. (The user password editing issue [#13](https://github.com/kaoskeya/meteor-admin/issues/13) could be handled with this feature).
 * Demo Site. [#8](https://github.com/kaoskeya/meteor-admin/issues/8)
-* Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)
 * Advanced and Foreign key filtering. [#11](https://github.com/kaoskeya/meteor-admin/issues/11) [#12](https://github.com/kaoskeya/meteor-admin/issues/12)
 * Publish only whats required. While Viewing/Editing, publish all keys.
+
+* ~~Advanced Pagination: Page numbers, Jump to page, Set page size etc. Possibly for 0.2.0. [#6](https://github.com/kaoskeya/meteor-admin/issues/6)~~
+* ~~Create/View/Edit/Delete custom templates. (The user password editing issue [#13](https://github.com/kaoskeya/meteor-admin/issues/13) could be handled with this feature).~~
 * ~~Uses eval() in server code, after the necessary checks are done. If you have other ways to implement this, please open an issue or send a pull request.~~
 * ~~Filter.~~
 * ~~Basic Pagination.~~
