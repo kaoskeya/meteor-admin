@@ -35,8 +35,7 @@ Package.onUse(function(api) {
   api.add_files([
     'client/k_admin.html',
     'client/k_admin.js',
-    'client/k_admin.css',
-    'client/k_admin_user_templates.html'
+    'client/k_admin.css'
     ], 'client');
 
   api.add_files([
