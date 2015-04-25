@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-md-7">
 			{{#if currentCollection}}
-				<h1>{{ panelName }} - Managing {{currentCollection}}</h1>
+				<h1>{{ panelName }} - Managing {{ getVerbose currentCollection }}</h1>
 			{{else}}
 				<h1>{{ panelName }}</h1>
 			{{/if}}
@@ -27,7 +27,7 @@
 		<div class="col-md-3 text-right">
 			<br />
 			<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
-			{{ currentlyManaging }} <span class="caret"></span>
+			{{ getVerbose currentlyManaging }} <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu dropdown-menu-right" role="menu" id="kAdminSelector">
 				{{#each collections}}
@@ -45,10 +45,6 @@
 	{{/if}}
 
 	{{#if currentCollection}}
-		{{#if collection.templates.crud }}
-			{{> DynamicTemplate template=collection.templates.crud.name data=currentDoc }}
-		{{else}}
-
 		{{#if actionCenter}}
 			<div class="row">
 				<div class="col-sm-12">
@@ -91,132 +87,186 @@
 				</div>
 			</div>
 		{{/if}}
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="panel">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								{{#each collection.tableColumns}}
-									{{#if sortable this }}
-										<th class="sortable" id="{{ name }}">
-											{{ label }}
-											{{#if fieldBeingSorted name}}
-												<i class="{{ sortIcon }}"></i>
-											{{/if}}
-										</th>
-									{{else}}
-										<th>
-											{{ label }}
-										</th>
-									{{/if}}
+		<div class="panel">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-3">
+						<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
+					</div>
+					<div class="col-md-3 text-center">
+						<div class="dropdown" id="perPageSelect">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+								{{ perPage }} per page
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+								<li role="presentation"><a role="menuitem">10</a></li>
+								<li role="presentation"><a role="menuitem">25</a></li>
+								<li role="presentation"><a role="menuitem">50</a></li>
+								<li role="presentation"><a role="menuitem">100</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 text-center">
+						<div class="dropdown" id="pageNumberSelect">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+								Page number {{ pageNumber }}
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+								{{#each pages}}
+									<li role="presentation"><a role="menuitem">{{ this }}</a></li>
 								{{/each}}
-								{{#unless collection.tableColumns}}
-									<th>ID</th>
-								{{/unless}}
-								<th class="text-center actionHeader">Actions</th>
-							</tr>
-							<tr>
-								{{#each collection.tableColumns}}
-									<th>
-										{{#if searchable this }}
-											{{#autoForm collection=currentCollection id=randomId }}
-												{{> afFieldInput name=name class="filters form-control input-sm" }}
-												<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
-											{{/autoForm}}
-										{{/if}}
-									</th>
-								{{/each}}
-
-								{{#unless collection.tableColumns}}
-									<th>ID</th>
-								{{/unless}}
-								<th class="text-right">
-									<div class="btn-group" role="toolbar" aria-label="Admin actions">
-										<button class="btn btn-info" id="filterTrigger">Filter</button>
-										<button class="btn btn-warning" id="filterReset">Reset</button>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{{#each rows}}
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 text-right">
+						<div class="btn-group" role="toolbar" aria-label="Pagination">
+							{{#if prev}}
+								<button id="prev" class="btn btn-primary">Prev</button>
+							{{/if}}
+							{{#if next}}
+								<button id="next" class="btn btn-primary">Next</button>
+							{{/if}}
+						</div>
+						<br /><br />
+					</div>
+				</div>
+			</div>
+		</div>
+		{{#if collection.templates.crud }}
+			{{> DynamicTemplate template=collection.templates.crud.name data=currentDoc }}
+		{{else}}
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel">
+						<table class="table table-bordered">
+							<thead>
 								<tr>
-									{{#each getAttrs collection.tableColumns}}
-										<td>{{ this }}</td>
+									{{#each collection.tableColumns}}
+										{{#if sortable this }}
+											<th class="sortable" id="{{ name }}">
+												{{ label }}
+												{{#if fieldBeingSorted name}}
+													<i class="{{ sortIcon }}"></i>
+												{{/if}}
+											</th>
+										{{else}}
+											<th>
+												{{ label }}
+											</th>
+										{{/if}}
 									{{/each}}
 									{{#unless collection.tableColumns}}
-										<td>{{ _id }}</td>
+										<th>ID</th>
 									{{/unless}}
-									<td class="text-right">
-										<div class="btn-group" role="toolbar" aria-label="Admin actions">
-											<button class="btn-group btn-info action" data-action="read">View</button>
-											<button class="btn-group btn-warning action" data-action="update">Edit</button>
-											<button class="btn-group btn-danger action" data-action="delete">Delete</button>
-										</div>
-									</td>
+									<th class="text-center actionHeader">Actions</th>
 								</tr>
-							{{/each}}
-						</tbody>
-						<tfoot>
-							<tr>
-								{{#each collection.tableColumns}}
-									<th>{{ label }}</th>
+								<tr>
+									{{#each collection.tableColumns}}
+										<th>
+											{{#if searchable this }}
+												{{#autoForm collection=currentCollection id=randomId }}
+													{{> afFieldInput name=name class="filters form-control input-sm" }}
+													<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
+												{{/autoForm}}
+											{{/if}}
+										</th>
+									{{/each}}
+
+									{{#unless collection.tableColumns}}
+										<th>ID</th>
+									{{/unless}}
+									<th class="text-right">
+										<div class="btn-group" role="toolbar" aria-label="Admin actions">
+											<button class="btn btn-info" id="filterTrigger">Filter</button>
+											<button class="btn btn-warning" id="filterReset">Reset</button>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each rows}}
+									<tr>
+										{{#each getAttrs collection.tableColumns}}
+											<td>{{ this }}</td>
+										{{/each}}
+										{{#unless collection.tableColumns}}
+											<td>{{ _id }}</td>
+										{{/unless}}
+										<td class="text-right">
+											<div class="btn-group" role="toolbar" aria-label="Admin actions">
+												<button class="btn-group btn-info action" data-action="read">View</button>
+												<button class="btn-group btn-warning action" data-action="update">Edit</button>
+												<button class="btn-group btn-danger action" data-action="delete">Delete</button>
+											</div>
+										</td>
+									</tr>
 								{{/each}}
-								{{#unless collection.tableColumns}}
-									<th>ID</th>
-								{{/unless}}
-								<th class="text-center">Actions</th>
-							</tr>
-						</tfoot>
-					</table>
+							</tbody>
+							<tfoot>
+								<tr>
+									{{#each collection.tableColumns}}
+										<th>{{ label }}</th>
+									{{/each}}
+									{{#unless collection.tableColumns}}
+										<th>ID</th>
+									{{/unless}}
+									<th class="text-center">Actions</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="dropdown" id="perPageSelect">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-						{{ perPage }} per page
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
-						<li role="presentation"><a role="menuitem">10</a></li>
-						<li role="presentation"><a role="menuitem">25</a></li>
-						<li role="presentation"><a role="menuitem">50</a></li>
-						<li role="presentation"><a role="menuitem">100</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-3 text-center">
-				<div class="dropdown" id="pageNumberSelect">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-						Page number {{ pageNumber }}
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
-						{{#each pages}}
-							<li role="presentation"><a role="menuitem">{{ this }}</a></li>
-						{{/each}}
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-3 text-right">
-				<div class="btn-group" role="toolbar" aria-label="Pagination">
-					{{#if prev}}
-						<button id="prev" class="btn btn-primary">Prev</button>
-					{{/if}}
-					{{#if next}}
-						<button id="next" class="btn btn-primary">Next</button>
-					{{/if}}
-				</div>
-				<br /><br />
-			</div>
-		</div>
 		{{/if}}
+		<div class="panel">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-3">
+						<p>Records <b>{{ rowsPageStart }}</b> to <b>{{ rowsPageEnd }}</b> of <b>{{ totalRows }}</b></p>
+					</div>
+					<div class="col-md-3 text-center">
+						<div class="dropdown" id="perPageSelect">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+								{{ perPage }} per page
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+								<li role="presentation"><a role="menuitem">10</a></li>
+								<li role="presentation"><a role="menuitem">25</a></li>
+								<li role="presentation"><a role="menuitem">50</a></li>
+								<li role="presentation"><a role="menuitem">100</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 text-center">
+						<div class="dropdown" id="pageNumberSelect">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+								Page number {{ pageNumber }}
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="pageNumberSelect">
+								{{#each pages}}
+									<li role="presentation"><a role="menuitem">{{ this }}</a></li>
+								{{/each}}
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 text-right">
+						<div class="btn-group" role="toolbar" aria-label="Pagination">
+							{{#if prev}}
+								<button id="prev" class="btn btn-primary">Prev</button>
+							{{/if}}
+							{{#if next}}
+								<button id="next" class="btn btn-primary">Next</button>
+							{{/if}}
+						</div>
+						<br /><br />
+					</div>
+				</div>
+			</div>
+		</div>
 	{{else}}
 		<h3>Please select a module from the dropdown on top right.</h3>
 		{{#unless collections}}

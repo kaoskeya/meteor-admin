@@ -30,8 +30,6 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 						})
 					}
 
-					console.log( filters )
-					
 					if( collection == 'Meteor.users' )
 						var coll = Meteor.users
 					else

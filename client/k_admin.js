@@ -4,6 +4,8 @@ Template.kAdminPanel.helpers({
 		return _.keys( Template.instance().config.collections );
 	},
 	getVerbose: function(collectionName) {
+		if( 'Choose module' == collectionName )
+			return collectionName;
 		return Template.instance().config.collections[collectionName].hasOwnProperty("verbose")?Template.instance().config.collections[collectionName].verbose:collectionName;
 	},
 	collection: function() {
