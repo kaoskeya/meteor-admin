@@ -10,9 +10,27 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 					else {
 						filters = JSON.parse(filters);
 						_.each(filters, function(value, index){
-							filters[index] = global[collection].simpleSchema()._schema[index].type(value);
+							if( kAdminConfig.collections[collection].searchType.hasOwnProperty(index) ) {
+								var specialSearch = kAdminConfig.collections[collection].searchType[index];
+								switch( specialSearch ) {
+									case "regex":
+										filters[index] = { $regex: global[collection].simpleSchema()._schema[index].type(value) };
+										break;
+									case "regex-ci":
+										filters[index] = { $regex: global[collection].simpleSchema()._schema[index].type(value), "$options": "i" };
+										break;
+									default:
+										filters[index] = global[collection].simpleSchema()._schema[index].type(value);
+										break;
+								}
+							}
+							else {
+								filters[index] = global[collection].simpleSchema()._schema[index].type(value);
+							}
 						})
 					}
+
+					console.log( filters )
 					
 					if( collection == 'Meteor.users' )
 						var coll = Meteor.users

@@ -31,7 +31,7 @@
 			</button>
 			<ul class="dropdown-menu dropdown-menu-right" role="menu" id="kAdminSelector">
 				{{#each collections}}
-					<li><a href="#" data-collection="{{ this }}">{{ this }}</a></li>
+					<li><a href="#" data-collection="{{ this }}">{{ getVerbose this }}</a></li>
 				{{/each}}
 				<li class="divider"></li>
 				<li><a href="#" data-collection="">Reset</a></li>

@@ -2,7 +2,6 @@
 `$ meteor add kaoskeya:admin`
 
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
-[yogiben:admin](https://github.com/yogiben/meteor-admin) was not working out too well for us, so built this.
 
 - [Dependencies](#dependencies)
 - [Setup](#setup)
@@ -35,6 +34,8 @@ Note: In the example given below,
 `Answer.question` is a one-to-one to a simple-schema collection `Question`.
 `Business.admins` is a one-to-many to a simple-schema collection `User`.
 `Enquiry` has custom views for `new`, `edit` and `view`.
+
+`Business` also has a verbose name and regex, regex case insensitive for 2 fields. These are not done by default and you are advised to create appropriate indexes and use them.
 
 E.g:
 
@@ -69,13 +70,18 @@ kAdminConfig = {
 			]
 		},
 		Business: {
+			verbose: "Cool Businesses",
 			tableColumns: [
 				{label: 'Business Name', name: 'business_name'},
 				{label: 'City', name: 'city'},
 				{label: 'Phone', name: 'phone', dontSort: true}, // Cannot sort by this field
 				{label: 'Primary Business Type', name: 'primary_business_type'},
 				{label: 'Admin', name: 'admins', collection: 'User', collection_property: 'email' }
-			]
+			],
+			searchType: {
+				"city": "regex",
+				"business_name": "regex-ci"
+			},
 		},
         Slide: {
             tableColumns: [
