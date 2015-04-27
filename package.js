@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.2.0',
+  version: '0.2.1',
   summary: 'Simple autoform based admin that integrates with your bootstrap design.',
   git: 'https://github.com/kaoskeya/meteor-admin.git',
   documentation: 'README.md'
@@ -40,11 +40,6 @@ Package.onUse(function(api) {
     ], 'server');
 
   api.export('kAdmin'  ['client', 'server']);
-  api.export('kAdminNewUser'  ['client', 'server']);
-  api.export('kAdminEditUser'  ['client', 'server']);
-  api.export('kAdminViewUser'  ['client', 'server']);
-  //, 'kAdminNewUser', 'kAdminEditUser', 'kAdminViewUser',
-
 });
 
 Package.onTest(function(api) {
