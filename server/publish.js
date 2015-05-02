@@ -10,7 +10,7 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 					else {
 						filters = JSON.parse(filters);
 						_.each(filters, function(value, index){
-							if( kAdminConfig.collections[collection].searchType.hasOwnProperty(index) ) {
+							if( kAdminConfig.collections[collection].hasOwnProperty("searchType") && kAdminConfig.collections[collection].searchType.hasOwnProperty(index) ) {
 								var specialSearch = kAdminConfig.collections[collection].searchType[index];
 								switch( specialSearch ) {
 									case "regex":
