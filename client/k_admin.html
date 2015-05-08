@@ -36,7 +36,6 @@
 				<li class="divider"></li>
 				<li><a href="#" data-collection="">Reset</a></li>
 			</ul>
-			<!-- TODO: Reset -->
 		</div>
 	</div>
 
@@ -79,6 +78,10 @@
 								{{#quickRemoveButton collection=currentCollection _id=currentDoc._id onSuccess=deleteSuccess onError=deleteError class="btn btn-danger btn-block"}}
 									Confirm Deletion
 								{{/quickRemoveButton}}
+								<br />
+							{{/if}}
+							{{#if actionCenterCheck 'custom'}}
+								{{> DynamicTemplate template=customAction data=currentDoc }}
 								<br />
 							{{/if}}
 							<button id="cancelAction" class="btn btn-danger btn-block">Cancel</button>

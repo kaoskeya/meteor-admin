@@ -107,6 +107,12 @@ Template.kAdminPanel.helpers({
 	actionCenterCheck: function(action) {
 		return Template.instance().action.get() == action;
 	},
+	customAction: function() {
+		return Template.instance().customAction.get();
+	},
+	customTemplate: function() {
+		return 
+	},
 	currentDoc: function() {
 		return Template.instance().currentDoc.get();
 	},
@@ -211,6 +217,9 @@ Template.kAdminPanel.events({
 		// console.log( $(e.target).data('action'), this )
 		instance.currentDoc.set(this);
 		instance.action.set( $(e.target).data('action') );
+		if( $(e.target).data('action') == "custom" ) {
+			instance.customAction.set( $(e.target).data('template') );
+		}
 		$('html, body').animate({
 			scrollTop: $('#kAdminActionCenter').offset().top
 		}, 700);
@@ -218,6 +227,7 @@ Template.kAdminPanel.events({
 	// Cancel trigger
 	'click #cancelAction': function(e, instance) {
 		instance.action.set();
+		instance.customAction.set();
 	},
 	// Pagination
 	'click #next': function(e, instance) {
@@ -273,6 +283,7 @@ Template.kAdminPanel.created = function() {
 
 	instance.currentCollection = new ReactiveVar('');
 	instance.action = new ReactiveVar();
+	instance.customAction = new ReactiveVar();
 	instance.currentDoc = new ReactiveVar();
 	// Next/Prev increments/decrements skip by this value.
 	// instance.perPage = new ReactiveVar(10);
@@ -301,6 +312,7 @@ Template.kAdminPanel.created = function() {
 				instance.subscription.stop();
 				// Set current action to none.
 				instance.action.set();
+				instance.customAction.set();
 			}
 			var sort = {};
 			if( instance.sort.get('field') ) {
