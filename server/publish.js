@@ -1,6 +1,7 @@
 Meteor.publishComposite('kAdminSubscribe', function(collection, filters, pagination){
 	// console.log( collection, filters, pagination )
-	if ( Roles.userIsInRole(this.userId, ['admin']) ) {
+	var self = this;
+	if ( Roles.userIsInRole(self.userId, kAdminConfig.roles || ['admin'] ) ) {
 		if( _.keys( kAdminConfig.collections ).indexOf(collection) > -1 ) {
 			// If requested collection is a key in kAdminConfig
 			return {
@@ -30,13 +31,13 @@ Meteor.publishComposite('kAdminSubscribe', function(collection, filters, paginat
 						})
 					}
 
-					if( collection == 'Meteor.users' )
+					if( collection == "Meteor.users" )
 						var coll = Meteor.users
 					else
 						var coll = global[collection]
 
 					Counts.publish(this, 'currentCollectionCount', coll.find( filters ), { noReady: true });
-					aux_collections = _.compact(_.map(kAdminConfig.collections[collection].tableColumns, function(field){
+					aux_collections = _.compact(_.map(kAdminConfig.collections[collection].tableColumns, function(field) {
 						if(field.collection)
 							return { 'collection': field.collection, 'property': field.collection_property, 'name': field.name }
 					}));

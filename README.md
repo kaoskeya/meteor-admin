@@ -42,6 +42,7 @@ E.g:
 ```
 kAdminConfig = {
 	name: 'Your Panel Name',
+	roles: [ "admin", "rajini", "chucknorris", "superadmin" ],
 	collections: {
 		"Meteor.users": { 
 			tableColumns: [], 
