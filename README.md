@@ -3,6 +3,8 @@
 
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 
+For User management, check my new package: [kaoskeya:meteor-accounts-autoform-admin](https://atmospherejs.com/kaoskeya/meteor-accounts-autoform-admin)
+
 - [Dependencies](#dependencies)
 - [Setup](#setup)
 - [Config File](#config-file)
@@ -44,14 +46,13 @@ kAdminConfig = {
 	name: 'Your Panel Name',
 	roles: [ "admin", "rajini", "chucknorris", "superadmin" ],
 	collections: {
-		"Meteor.users": { 
-			tableColumns: [], 
-			templates: { 
-				"crud": { 
-					name: 'accountsAdmin' 
-				} 
-			} 
-		},
+        "Meteor.users": { 
+            verbose: "Users",
+            templates: { 
+                "crud": { name: 'kAccountsAdminFluid' },
+                "new": { name: 'underConstruction' }
+            } 
+        },
 		Enquiry: {
 			tableColumns: [
 				{label: 'Message', name: 'message'},
