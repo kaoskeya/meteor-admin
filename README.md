@@ -3,7 +3,7 @@
 
 Heavily uses [autoform](https://github.com/aldeed/meteor-autoform).
 
-For User management, check my new package: [kaoskeya:meteor-accounts-autoform-admin](https://atmospherejs.com/kaoskeya/meteor-accounts-autoform-admin)
+For User management, check my new package: [kaoskeya:accounts-autoform-admin](https://atmospherejs.com/kaoskeya/accounts-autoform-admin)
 
 - [Dependencies](#dependencies)
 - [Setup](#setup)
