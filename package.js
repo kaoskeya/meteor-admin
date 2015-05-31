@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.2.4_4',
+  version: '0.2.4_5',
   summary: 'Simple autoform based admin that integrates with your bootstrap design.',
   git: 'https://github.com/kaoskeya/meteor-admin.git',
   documentation: 'README.md'
@@ -15,7 +15,6 @@ Package.onUse(function(api) {
       'reactive-var',
       'reactive-dict',
       'jquery',
-      'aldeed:delete-button@1.0.0',
       'chrismbeckett:toastr@2.1.0',
       'sacha:spin@2.0.4',
       'reywood:publish-composite@1.3.5',

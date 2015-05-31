@@ -108,7 +108,7 @@ Add templates as shown below:
 Enquiry: {
 	tableColumns: [
 		{label: 'Message', name: 'message'},
-		{label: 'Posted at', name: 'createdAt', collection_property: 'prettifyTime()' }
+		{label: 'Posted at', name: 'createdAt', collection_helper: 'prettifyTime()' }
 	],
 	templates: {
 		"crud": { name: 'yourFancyTable' },

@@ -75,9 +75,9 @@
 							{{/if}}
 							{{#if actionCenterCheck 'delete'}}
 								<h3>Delete</h3>
-								{{#quickRemoveButton collection=currentCollection _id=currentDoc._id onSuccess=deleteSuccess onError=deleteError class="btn btn-danger btn-block"}}
-									Confirm Deletion
-								{{/quickRemoveButton}}
+									{{#quickRemoveButton collection=currentCollection _id=currentDoc._id onSuccess=deleteSuccess onError=deleteError class="btn btn-danger btn-block"}}
+										Confirm Deletion
+									{{/quickRemoveButton}}
 								<br />
 							{{/if}}
 							{{#if actionCenterCheck 'custom'}}
@@ -169,10 +169,7 @@
 									{{#each collection.tableColumns}}
 										<th>
 											{{#if searchable this }}
-												{{#autoForm collection=currentCollection id=randomId }}
-													{{> afFieldInput name=name class="filters form-control input-sm" }}
-													<!-- <input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" /> -->
-												{{/autoForm}}
+												<input type="text" name="{{ name }}" placeholder="{{ label }}" class="filters form-control" />
 											{{/if}}
 										</th>
 									{{/each}}
@@ -191,7 +188,7 @@
 							<tbody>
 								{{#each rows}}
 									<tr>
-										{{#each getAttrs collection.tableColumns}}
+										{{#each getAttrs }}
 											<td>{{ this }}</td>
 										{{/each}}
 										{{#unless collection.tableColumns}}

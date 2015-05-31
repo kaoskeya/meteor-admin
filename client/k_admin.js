@@ -34,61 +34,14 @@ Template.kAdminPanel.helpers({
 		else
 			return window[ Template.instance().currentCollection.get() ].find().fetch();
 	},
-	getAttrs: function(cols) {
+	getAttrs: function() {
 		var self = this;
-		return _.map(cols, function(col){
-			keys = _.pick(col, 'name', 'collection', 'collection_property', 'dateFormat', 'dateUnix', 'dontSort', 'collection_helper', 'dateUTC');
-			if(keys['collection'] == undefined) {
-				// If it does not have an aux collection, return value
-				if( keys['dateFormat'] == undefined )
-					return self[ keys['name'] ]
-				else {
-					if( self[ keys['name'] ] ) {
-						// If value is set, return time in user preferred format.
-						if( keys['dateUTC'] == true ) {
-							if( keys['dateUnix'] == true )
-								return moment.unix( self[ keys['name'] ] ).format( keys['dateFormat'] )
-							else
-								return moment( self[ keys['name'] ] ).format( keys['dateFormat'] )
-						} else {
-							if( keys['dateUnix'] == true )
-								return moment.utc( self[ keys['name'] ] * 1000 ).format( keys['dateFormat'] )
-							else
-								return moment.utc( self[ keys['name'] ] ).format( keys['dateFormat'] )
-						}
-					}
-				}
-			} else {
-				// If it has an aux collection
-				if( keys.hasOwnProperty('collection_helper') ) {
-					// substr stuff because yogiben:admin uses function.
-					return self[ keys['collection_helper'].substr( 0, keys['collection_helper'].length - 2 ) ]()
-				}
-				if( self[keys['name']] instanceof Array ) {
-					// One to many
-					function index(obj,i) {return obj[i]};
-					return _.map(
-						window[ keys['collection'] ].find({ _id: { $in: self[keys['name']] } }).fetch(),
-						function(foreign_entity) {
-							try {
-								return keys['collection_property'].split('.').reduce(index, foreign_entity);
-							} catch(e) {
-								return '';
-							}
-							//return foreign_entity[keys['collection_property']];
-						}
-					).join(', ');
-				} else {
-					// One to one
-					// Dot notation to object.
-					function index(obj,i) {return obj[i]};
-					try {
-						return keys['collection_property'].split('.').reduce(index, window[ keys['collection'] ].findOne({ _id: self[keys['name']] }));
-					} catch(e) {
-						return '';
-					}
-				}
-			}
+		console.log( Template.instance().attrs.get() )
+		return _.map(Template.instance().attrs.get(), function(field){
+			if( field.substr(-2) == "()" )
+				return self[ field.substr(0, field.length-2) ]();
+			else
+				return self[ field ];
 		});
 	},
 	searchable: function(column) {
@@ -210,6 +163,18 @@ Template.kAdminPanel.events({
 		instance.sort.set('field');
 		instance.sort.set('order', 1);
 		instance.filters.set();
+		instance.attrs.set(
+			_.map( instance.config.collections[ $(e.target).data('collection') ]['tableColumns'], function(col){
+				keys = _.pick(col, 'name', 'collection', 'collection_property', 'dontSort', 'collection_helper' );
+				if(keys['collection'] != undefined) {
+					return keys['collection_helper']
+				} else {
+					// If it does not have an aux collection, return value
+					// Removed support for date. Please use collection helpers.
+					return keys['name'];
+				}
+			})
+		);
 		$('.filters').val('');
 	},
 	// CRUD action trigger
@@ -293,6 +258,9 @@ Template.kAdminPanel.created = function() {
 	instance.pagination = new ReactiveDict;
 	instance.pagination.set('skip', 0);
 	instance.pagination.set('limit', 10 );
+
+	// Attributes
+	instance.attrs = new ReactiveVar();
 
 	// Use for sort
 	instance.sort = new ReactiveDict;
