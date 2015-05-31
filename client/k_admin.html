@@ -54,7 +54,11 @@
 									{{> DynamicTemplate template=collection.templates.new.name }}
 								{{else}}
 									<h3>Create</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="insert" omitFields=omitFieldsForCreate	}}
+									{{#if nonautoform}}
+										<p>Custom Create</p>
+									{{else}}
+										{{> quickForm collection=currentCollection id="kAdminForm" type="insert" omitFields=omitFieldsForCreate	}}
+									{{/if}}
 								{{/if}}
 							{{/if}}
 							{{#if actionCenterCheck 'read'}}
@@ -70,7 +74,11 @@
 									{{> DynamicTemplate template=collection.templates.edit.name data=currentDoc }}
 								{{else}}
 									<h3>Update</h3>
-									{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc omitFields=omitFieldsForEdit}}
+									{{#if nonautoform}}
+										<p>Custom Update</p>
+									{{else}}
+										{{> quickForm collection=currentCollection id="kAdminForm" type="update" doc=currentDoc omitFields=omitFieldsForEdit}}
+									{{/if}}
 								{{/if}}
 							{{/if}}
 							{{#if actionCenterCheck 'delete'}}

@@ -1,5 +1,12 @@
 Template.kAdminPanel.helpers({
 	// Essentials, seting up collections, active collection, etc
+	nonautoform: function() {
+		if( Template.instance().config.hasOwnProperty("autoform") && Template.instance().config.autoform == false ) {
+			return true;
+		} else {
+			return false;
+		}
+	},
 	collections: function() {
 		return _.keys( Template.instance().config.collections );
 	},
@@ -36,7 +43,6 @@ Template.kAdminPanel.helpers({
 	},
 	getAttrs: function() {
 		var self = this;
-		console.log( Template.instance().attrs.get() )
 		return _.map(Template.instance().attrs.get(), function(field) {
 			if( field.substr(-2) == "()" )
 				return self[ field.substr(0, field.length-2) ]();

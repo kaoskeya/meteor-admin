@@ -1,4 +1,3 @@
-aldeed:delete-button@1.0.0
 base64@1.0.3
 binary-heap@1.0.3
 blaze@2.1.2
@@ -17,14 +16,13 @@ iron:core@1.0.7
 iron:dynamic-template@1.0.7
 jquery@1.11.3_2
 json@1.0.3
-kaoskeya:admin@0.2.4_4
-local-test:kaoskeya:admin@0.2.4_4
+kaoskeya:admin@0.2.4_5
+local-test:kaoskeya:admin@0.2.4_5
 logging@1.0.7
 meteor@1.1.6
 minifiers@1.1.5
 minimongo@1.0.8
 mongo@1.1.0
-mongo-livedata@1.0.8
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 random@1.0.3

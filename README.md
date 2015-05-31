@@ -1,15 +1,17 @@
 # meteor-admin
 `$ meteor add kaoskeya:admin`
 
+Adding non autoform support soon to the same package. AutoForm support will continue.
+
 #### Can I use this? ####
 
 If you use the following:
 
-* [autoform](https://github.com/aldeed/meteor-autoform) for your collections.
+* [simple-schema](https://github.com/aldeed/meteor-simple-schema) and [autoform](https://github.com/aldeed/meteor-autoform) for your collections.
 * Bootstrap.
 * Roles created using `meteor add alanning:roles`
 
-Then yes. 
+Then yes.
 
 #### Right. Set me up ####
 
