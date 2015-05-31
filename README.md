@@ -36,21 +36,31 @@ We're tried to keep it very simple and something that will work with your existi
 
 Add your collections inside `kAdminConfig.collections`:
 
-##### Simple #####
+##### Regular fields and helper fields #####
+
+This would require you use [dburles:collection-helpers](https://atmospherejs.com/dburles/collection-helpers) and specify the helper as given below:
 
 ```
 Categories: {
 	tableColumns: [
-		{label: 'Category', name: 'category' },
-		{label: 'Slug', name: 'slug' },
-		{label: 'Order', name: 'order' }
+		{ label: 'Category', name: 'category' },
+		{ label: 'Slug', name: 'slug' },
+		{ label: 'Order', name: 'order' },
+        { label: 'Created At', name: 'formattedCreateTime()' }
 	]
 }
 ```
 
+```
+Categories.helpers({
+	formattedCreateTime: function() {
+		return moment(this.createdAt).format("Do MMM YYYY HH:mm");
+	}
+});
+```
+
 ##### There are foreign fields #####
 
-This would require you use [dburles:collection-helpers](https://atmospherejs.com/dburles/collection-helpers) and specify the helper as given below:
 
 ```
 Subcategory: {

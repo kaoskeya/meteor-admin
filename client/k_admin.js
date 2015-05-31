@@ -37,7 +37,7 @@ Template.kAdminPanel.helpers({
 	getAttrs: function() {
 		var self = this;
 		console.log( Template.instance().attrs.get() )
-		return _.map(Template.instance().attrs.get(), function(field){
+		return _.map(Template.instance().attrs.get(), function(field) {
 			if( field.substr(-2) == "()" )
 				return self[ field.substr(0, field.length-2) ]();
 			else
