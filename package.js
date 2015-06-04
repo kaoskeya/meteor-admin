@@ -17,9 +17,9 @@ Package.onUse(function(api) {
       'jquery',
       'chrismbeckett:toastr@2.1.0',
       'sacha:spin@2.0.4',
-      'reywood:publish-composite@1.3.5',
-      'iron:dynamic-template@1.0.7',
-      'tmeasday:publish-counts@0.3.9'
+      'reywood:publish-composite@1.3.6',
+      'iron:dynamic-template@1.0.8',
+      'tmeasday:publish-counts@0.4.0'
     ],
     ['client','server']
   );
