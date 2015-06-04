@@ -88,7 +88,7 @@ Template.kAdminPanel.helpers({
 	deleteError: function() {
 		return function (error) { 
 			toastr.error(error); 
-			console.log(error); 
+			// console.log(error); 
 		};
 	},
 	// Sorting
@@ -187,6 +187,21 @@ Template.kAdminPanel.events({
 	'click .action': function(e, instance) {
 		// console.log( $(e.target).data('action'), this )
 		instance.currentDoc.set(this);
+		instance.action.set( $(e.target).data('action') );
+		if( $(e.target).data('action') == "custom" ) {
+			instance.customAction.set( $(e.target).data('template') );
+		}
+		$('html, body').animate({
+			scrollTop: $('#kAdminActionCenter').offset().top
+		}, 700);
+	},
+	// CRUD action trigger
+	'click .customAction': function(e, instance) {
+		if( "Meteor.users" == instance.currentCollection.get() ) {
+			instance.currentDoc.set( Meteor.users.findOne({ _id: $(e.target).data('id') }) );
+		} else {
+			instance.currentDoc.set( window[ instance.currentCollection.get() ].findOne({ _id: $(e.target).data('id') }) );
+		}
 		instance.action.set( $(e.target).data('action') );
 		if( $(e.target).data('action') == "custom" ) {
 			instance.customAction.set( $(e.target).data('template') );
@@ -322,7 +337,7 @@ Template.kAdminPanel.rendered = function() {
 				toastr.success('Action completed');
 			},
 			onError: function(operation, error, template) {
-				console.log(error)
+				// console.log(error)
 				toastr.error(error)
 			}
 		}

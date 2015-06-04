@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:admin',
-  version: '0.2.4_6',
+  version: '0.2.4_7',
   summary: 'Simple autoform based admin that integrates with your bootstrap design.',
   git: 'https://github.com/kaoskeya/meteor-admin.git',
   documentation: 'README.md'
