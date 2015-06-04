@@ -87,8 +87,7 @@ Template.kAdminPanel.helpers({
 	},
 	deleteError: function() {
 		return function (error) { 
-			toastr.error(error); 
-			// console.log(error); 
+			toastr.error( error.message );
 		};
 	},
 	// Sorting
@@ -341,8 +340,7 @@ Template.kAdminPanel.rendered = function() {
 				toastr.success('Action completed');
 			},
 			onError: function(operation, error, template) {
-				// console.log(error)
-				toastr.error( error.error )
+				toastr.error( error.reason )
 			}
 		}
 	});

@@ -1,7 +1,12 @@
 # meteor-admin
 `$ meteor add kaoskeya:admin`
 
-Adding non autoform support soon to the same package. AutoForm support will continue.
+For delete support please add: 
+
+`meteor add aldeed:delete-button`
+
+Removed it as the package will soon work without simple-schema and autoform.
+AutoForm support will continue.
 
 #### Can I use this? ####
 
