@@ -145,7 +145,7 @@ AutoForm.hooks({
 		},
 		onError: function(operation, error, template) {
 			console.log(error)
-			toastr.error(error)
+			toastr.error(error.error)
 		}
 	}
 });

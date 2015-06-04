@@ -342,7 +342,7 @@ Template.kAdminPanel.rendered = function() {
 			},
 			onError: function(operation, error, template) {
 				// console.log(error)
-				toastr.error(error)
+				toastr.error( error.error )
 			}
 		}
 	});
