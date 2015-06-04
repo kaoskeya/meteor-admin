@@ -48,7 +48,7 @@ Categories: {
 		{ label: 'Category', name: 'category' },
 		{ label: 'Slug', name: 'slug' },
 		{ label: 'Order', name: 'order' },
-        { label: 'Created At', name: 'formattedCreateTime()' }
+        { label: "Created At", name: "createdAt", helper: "formattedCreateTime()" },
 	]
 }
 ```
@@ -60,6 +60,8 @@ Categories.helpers({
 	}
 });
 ```
+
+The fields displayed using helpers, the sort and search will use the `name` field.
 
 ##### There are foreign fields #####
 

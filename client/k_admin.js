@@ -171,13 +171,17 @@ Template.kAdminPanel.events({
 		instance.filters.set();
 		instance.attrs.set(
 			_.map( instance.config.collections[ $(e.target).data('collection') ]['tableColumns'], function(col){
-				keys = _.pick(col, 'name', 'collection', 'collection_property', 'dontSort', 'collection_helper' );
+				keys = _.pick(col, 'name', 'collection', 'collection_property', 'dontSort', 'collection_helper', 'helper' );
 				if(keys['collection'] != undefined) {
 					return keys['collection_helper']
 				} else {
 					// If it does not have an aux collection, return value
 					// Removed support for date. Please use collection helpers.
-					return keys['name'];
+					if( keys['helper'] ) {
+						return keys['helper'];
+					} else {
+						return keys['name'];
+					}
 				}
 			})
 		);
