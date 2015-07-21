@@ -76,7 +76,7 @@ Template.kAdminPanel.helpers({
 		return Template.instance().currentDoc.get();
 	},
 	formattedCurrentDoc: function() {
-		return JSON.stringify( Template.instance().currentDoc.get(), null, '\t');
+		return JSON.stringify( Template.instance().currentDoc.get(), null, 4);
 	},
 	deleteSuccess: function() {
 		var action = Template.instance().action;
