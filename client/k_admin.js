@@ -36,10 +36,12 @@ Template.kAdminPanel.helpers({
 	},
 	// Printing the table.
 	rows: function() {
-		if( Template.instance().currentCollection.get() == 'Meteor.users' )
-			return Meteor.users.find().fetch()
-		else
-			return window[ Template.instance().currentCollection.get() ].find().fetch();
+		if( !Template.instance().loading.get() ) {
+			if( Template.instance().currentCollection.get() == 'Meteor.users' )
+				return Meteor.users.find().fetch()
+			else
+				return window[ Template.instance().currentCollection.get() ].find().fetch();
+		}
 	},
 	getAttrs: function() {
 		var self = this;
